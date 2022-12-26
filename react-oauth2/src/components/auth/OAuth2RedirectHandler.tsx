@@ -1,10 +1,10 @@
-import React, {useEffect, useLayoutEffect} from "react";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import {useAppDispatch} from "../../hooks/redux";
-import {signIn} from "../../utils/AuthUtils";
+import React, { useEffect, useLayoutEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux";
+import { signIn } from "../../utils/AuthUtils";
 
 export default function OAuth2RedirectHandler() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   let navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -14,11 +14,11 @@ export default function OAuth2RedirectHandler() {
     if (token !== null) {
       signIn(token, dispatch);
     }
-  }, []);
+  });
 
   useEffect(() => {
     navigate("/");
-  }, []);
+  });
 
   return <></>;
 }

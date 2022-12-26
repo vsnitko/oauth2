@@ -7,7 +7,7 @@ import {saveUser} from "../store/reducers/UserSlice";
 
 export default function EditPage() {
   const { principal } = useAppSelector((state) => state.userReducer);
-  const [name, setName] = useState(principal && principal.name || "");
+  const [name, setName] = useState((principal && principal.name) || "");
   const onNameChanged = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
 
   const dispatch = useAppDispatch();

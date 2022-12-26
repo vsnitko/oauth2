@@ -1,0 +1,30 @@
+app:
+  client-path: http://localhost:3000
+  client-oauth2-redirect-endpoint: /oauth2/redirect
+  jwt:
+    expirationMinutes: 999999
+    secretKey: secret
+logging:
+  level:
+    com.vsnitko.oauth2.filter.LoggingFilter: INFO
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/oauth2_db
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: # should be overwritten
+            client-secret: # should be overwritten
+            scope: 'email, profile'
+          github:
+            client-id: # should be overwritten
+            client-secret: # should be overwritten
+            scope: 'user:email, read:user'
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update

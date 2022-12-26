@@ -24,7 +24,7 @@ export default function Navbar() {
     if (principalString) {
       dispatch(saveUser(JSON.parse(principalString)));
     }
-  }, []);
+  });
 
   const openModal = (isSignIn: boolean) => {
     setIsSignIn(isSignIn);

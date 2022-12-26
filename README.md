@@ -1,7 +1,7 @@
 # Main page
 ![Screenshot_2](https://user-images.githubusercontent.com/54511054/209580686-ec7d44bf-0999-4110-8b53-334498d5c763.png)
 
-Spring-React project with implementation of both OAuth2 auth and basic auth with email
+Spring-React project with implementation of both OAuth2 auth and basic auth with email. Uses JWT tokens to authorize users
 
 ### Technologies used
 * Backend
@@ -45,7 +45,9 @@ Run Spring Boot 3 with Java 19 (server will run on port 8080)
 #### `java -jar target/oauth2-demo.jar`
 
 Run React (server will run on port 3000)
-#### `cd react-oauth2`
+
+From /react-oauth2 (`cd react-oauth2`):
+
 #### `npm install`
 #### `npm start`
 
