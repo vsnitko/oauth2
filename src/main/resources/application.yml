@@ -1,0 +1,26 @@
+app:
+    client-path: http://localhost:3000
+    client-oauth2-redirect-endpoint: /oauth2/redirect
+    jwt:
+        expirationMinutes: 999999
+        secretKey: secret
+spring:
+    datasource:
+        username: root
+        password: root
+        url: jdbc:mysql://localhost:3306/oauth2_db
+    security:
+        oauth2:
+            client:
+                registration:
+                    github:
+                        client-id:
+                        client-secret:
+                        scope: 'user:email, read:user'
+                    google:
+                        client-id:
+                        client-secret:
+                        scope: 'email, profile'
+    jpa:
+        hibernate:
+            ddl-auto: update
