@@ -3,7 +3,7 @@ package com.vsnitko.oauth2.web;
 import com.vsnitko.oauth2.model.payload.SignInRequest;
 import com.vsnitko.oauth2.model.payload.SignInResponse;
 import com.vsnitko.oauth2.model.payload.SignUpRequest;
-import com.vsnitko.oauth2.service.impl.AuthenticationServiceImpl;
+import com.vsnitko.oauth2.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationServiceImpl authenticationService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/sign-in")
     public ResponseEntity<SignInResponse> signIn(@Valid @RequestBody SignInRequest userDto) {

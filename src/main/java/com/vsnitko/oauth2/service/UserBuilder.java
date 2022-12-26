@@ -12,5 +12,5 @@ public interface UserBuilder {
 
     String getRegistrationId();
 
-    User buildUser(final OAuth2AuthorizedClient authorizedClient, OAuth2AuthenticationToken oAuth2Token);
+    User buildUser(OAuth2AuthorizedClient authorizedClient, OAuth2AuthenticationToken oAuth2Token);
 }

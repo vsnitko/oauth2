@@ -6,6 +6,9 @@ import com.vsnitko.oauth2.model.entity.UserDetailsImpl;
 import com.vsnitko.oauth2.model.payload.SignInRequest;
 import com.vsnitko.oauth2.model.payload.SignInResponse;
 import com.vsnitko.oauth2.model.payload.SignUpRequest;
+import com.vsnitko.oauth2.service.AuthenticationService;
+import com.vsnitko.oauth2.service.TokenProvider;
+import com.vsnitko.oauth2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,13 +22,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
-    private final TokenProviderImpl tokenProvider;
-    private final UserServiceImpl userService;
+    private final TokenProvider tokenProvider;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public SignInResponse basicSignIn(final SignInRequest signInRequest) {
         final var emailPassword = new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(emailPassword);
@@ -35,6 +39,7 @@ public class AuthenticationServiceImpl {
         return new SignInResponse(token);
     }
 
+    @Override
     public SignInResponse basicSignUp(final SignUpRequest signUpRequest) {
         final User user = User.builder()
                 .name(hasText(signUpRequest.getName()) ? signUpRequest.getName() : "Default Username")

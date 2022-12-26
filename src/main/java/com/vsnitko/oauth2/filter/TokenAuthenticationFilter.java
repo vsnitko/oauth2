@@ -1,5 +1,6 @@
 package com.vsnitko.oauth2.filter;
 
+import com.vsnitko.oauth2.service.TokenProvider;
 import com.vsnitko.oauth2.service.impl.TokenProviderImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenProviderImpl tokenProvider;
+    private final TokenProvider tokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

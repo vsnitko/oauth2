@@ -2,6 +2,7 @@ package com.vsnitko.oauth2.handler;
 
 import com.vsnitko.oauth2.config.AppProperties;
 import com.vsnitko.oauth2.model.entity.User;
+import com.vsnitko.oauth2.service.TokenProvider;
 import com.vsnitko.oauth2.service.impl.TokenProviderImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +20,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     public static final String REDIRECT_ENDPOINT = "/oauth2/redirect";
 
-    private final TokenProviderImpl tokenProvider;
+    private final TokenProvider tokenProvider;
     private final AppProperties appProperties;
 
     @Override

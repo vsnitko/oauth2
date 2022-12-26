@@ -9,7 +9,7 @@ import com.vsnitko.oauth2.model.payload.EditRequest;
  */
 public interface UserService {
 
-    User getById(final Long id);
+    User getById(Long id);
 
     User save(User user);
 
