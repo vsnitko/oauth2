@@ -1,3 +1,5 @@
+![Coverage](.github/badges/jacoco.svg) ![Branches](.github/badges/branches.svg)
+
 # Main page
 ![Screenshot_2](https://user-images.githubusercontent.com/54511054/209580686-ec7d44bf-0999-4110-8b53-334498d5c763.png)
 
