@@ -104,4 +104,16 @@ class GithubUserBuilderTest {
       assertThrows(HttpClientErrorException.class, () -> githubUserBuilder.buildUser(AUTHORIZED_CLIENT, oAuth2Token));
     }
   }
+
+  @Test
+  void testBuildUser_emailNotNull() {
+    final String email = "anyEmail";
+    final UserDetailsImpl principal = new UserDetailsImpl(new User());
+    principal.getAttributes().put("email", email);
+    final OAuth2AuthenticationToken oAuth2Token = new OAuth2AuthenticationToken(principal, null, "any");
+
+    final User actualUser = githubUserBuilder.buildUser(AUTHORIZED_CLIENT, oAuth2Token);
+
+    assertEquals(email, actualUser.getEmail());
+    }
 }
