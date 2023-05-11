@@ -54,6 +54,8 @@
       <property name="ignoreMethods" value="Map.of"/>
     </module>
     <module name="UnusedLocalVariable"/>
+    <module name="RedundantImport"/>
+    <module name="UnusedImports"/>
     <!--        <module name="FinalParameters">-->
     <!--            <property name="tokens" value="METHOD_DEF"/>-->
     <!--            <property name="ignorePrimitiveTypes" value="true"/>-->

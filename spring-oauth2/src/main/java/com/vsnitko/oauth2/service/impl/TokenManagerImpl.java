@@ -5,7 +5,6 @@ import static java.lang.Long.parseLong;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.vsnitko.oauth2.config.JwtProperties;
 import com.vsnitko.oauth2.model.entity.User;
 import com.vsnitko.oauth2.service.TokenManager;
@@ -56,11 +55,12 @@ public class TokenManagerImpl implements TokenManager {
   public boolean validateToken(String authToken) {
     try {
       final Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
-      final DecodedJWT decodedJwt = JWT.require(algorithm)
+      JWT.require(algorithm)
           .build()
           .verify(authToken);
-      return !decodedJwt.getExpiresAt().before(new Date());
+      return true;
     } catch (JWTVerificationException e) {
+      log.info("Token is not valid: {}", e.getMessage());
       return false;
     }
   }
