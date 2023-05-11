@@ -1,4 +1,4 @@
-name: Java tests
+name: Java tests on PR
 
 on:
   pull_request:
@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn -B package --file spring-oauth2/pom.xml
+        run: mvn -B test --file spring-oauth2/pom.xml
 
       - name: Add coverage to PR
         # https://github.com/marketplace/actions/jacoco-report

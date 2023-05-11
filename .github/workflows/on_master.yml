@@ -34,7 +34,7 @@ jobs:
       - name: Push badges to "badges" branch
         # Checkout or create new branch "badges"
         # Delete all files and folders except ".git" and "badges"
-        # Git add, commit, push
+        # Git add, commit, push newly created/modified badges
         # After success, badges will become available by paths
         # ../badges/badges/jacoco.svg and ../badges/badges/branches.svg
         run: |

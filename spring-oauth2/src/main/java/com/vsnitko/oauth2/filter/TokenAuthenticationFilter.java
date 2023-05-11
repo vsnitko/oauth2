@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * Class with filter that is executed on each HTTP request.
  * Checks weather request contains JWT token in "Authorization" header.
  * If header is not empty, token is validated.
- * If it's valid, sets authenticated used to Security Context.
+ * If it's valid, sets authenticated user to Security Context.
  */
 @Component
 @RequiredArgsConstructor
