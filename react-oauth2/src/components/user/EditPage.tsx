@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {Box, Button, Flex, FormControl, FormLabel, Input, useToast} from "@chakra-ui/react";
+import {Avatar, Box, Button, Center, Flex, FormControl, FormLabel, Input, useToast} from "@chakra-ui/react";
 import axios from "axios";
-import {User} from "../model/User";
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {saveUser} from "../store/reducers/UserSlice";
+import {User} from "../../model/User";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {saveUser} from "../../store/reducers/UserSlice";
 
 export default function EditPage() {
   const { principal } = useAppSelector((state) => state.userReducer);
@@ -55,6 +55,9 @@ export default function EditPage() {
     <div>
       <Flex justifyContent="center">
         <Box w="40%">
+          <Center>
+            <Avatar size={"1xl"} src={principal && principal.avatar || "https://avatars.dicebear.com/api/male/username.svg"} referrerPolicy="no-referrer"/>
+          </Center>
           <FormControl mt={4}>
             <FormLabel>Username</FormLabel>
             <Input value={name} onChange={onNameChanged} />

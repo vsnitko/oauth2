@@ -1,11 +1,11 @@
-import {User} from "../model/User";
+import {User} from "../../../model/User";
 import {Avatar, Button, Center, Menu, MenuButton, MenuDivider, MenuItem, MenuList} from "@chakra-ui/react";
 import {useCallback} from "react";
 import {useNavigate} from "react-router-dom";
-import {logout} from "../utils/AuthUtils";
-import {useAppDispatch} from "../hooks/redux";
+import {logout} from "../../../utils/AuthUtils";
+import {useAppDispatch} from "../../../hooks/redux";
 
-export function UserMenu({ principal }: { principal: User }) {
+export function UserNavbarMenu({ principal }: { principal: User }) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const linkTrigger = useCallback(() => navigate("/edit", { replace: true }), [navigate]);

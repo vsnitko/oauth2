@@ -1,6 +1,6 @@
 import {Button} from "@chakra-ui/react";
 
-export function AuthorizeButtons({ openModal }: { openModal: (isSignIn: boolean) => void }) {
+export function AuthButtons({ openModal }: { openModal: (isSignIn: boolean) => void }) {
   return (
     <>
       <Button fontSize={"sm"} fontWeight={600} variant="outline" onClick={() => openModal(true)}>

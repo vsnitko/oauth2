@@ -14,10 +14,10 @@ import {
     Text,
     useToast
 } from "@chakra-ui/react";
-import {useAppDispatch} from "../../hooks/redux";
+import {useAppDispatch} from "../../../../hooks/redux";
 import axios from "axios";
-import {SignInResponse} from "../../model/SignInResponse";
-import {signIn} from "../../utils/AuthUtils";
+import {SignInResponse} from "../../../../model/SignInResponse";
+import {signIn} from "../../../../utils/AuthUtils";
 import {FaChevronLeft} from "react-icons/fa";
 
 export default function BasicSignUpModalContent({

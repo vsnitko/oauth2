@@ -1,12 +1,12 @@
 import React from "react";
 import {Route, Routes} from "react-router-dom";
 import {NotFound} from "./components/NotFound";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Homepage from "./components/Homepage";
-import EditPage from "./components/EditPage";
-import AuthenticatedAccess from "./components/access/AuthenticatedAccess";
-import VerifiedAccess from "./components/access/VerifiedAccess";
-import AdminAccess from "./components/access/AdminAccess";
+import EditPage from "./components/user/EditPage";
+import AuthenticatedAccess from "./components/navbar/navbar-content/access-enpoints/AuthenticatedAccess";
+import VerifiedAccess from "./components/navbar/navbar-content/access-enpoints/VerifiedAccess";
+import AdminAccess from "./components/navbar/navbar-content/access-enpoints/AdminAccess";
 import OAuth2RedirectHandler from "./components/auth/OAuth2RedirectHandler";
 import {Box, Flex} from "@chakra-ui/react";
 

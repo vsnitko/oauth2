@@ -1,11 +1,11 @@
 import {Box, Button, Flex, Stack, useColorMode, useColorModeValue, useDisclosure} from "@chakra-ui/react";
 import {MoonIcon, SunIcon} from "@chakra-ui/icons";
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import AuthModal from "./auth/AuthModal";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import AuthModal from "../auth/AuthModal";
 import {useEffect, useState} from "react";
-import {saveUser} from "../store/reducers/UserSlice";
-import {UserMenu} from "./UserMenu";
-import {AuthorizeButtons} from "./AuthorizeButtons";
+import {saveUser} from "../../store/reducers/UserSlice";
+import {UserNavbarMenu} from "./navbar-content/UserNavbarMenu";
+import {AuthButtons} from "./navbar-content/AuthButtons";
 import {Link} from "react-router-dom";
 
 export default function Navbar() {
@@ -56,7 +56,7 @@ export default function Navbar() {
             <Stack direction={"row"} spacing={7}>
               <Button onClick={toggleColorMode}>{colorMode === "light" ? <MoonIcon /> : <SunIcon />}</Button>
 
-              {principal ? <UserMenu principal={principal} /> : <AuthorizeButtons openModal={openModal} />}
+              {principal ? <UserNavbarMenu principal={principal} /> : <AuthButtons openModal={openModal} />}
             </Stack>
           </Flex>
         </Flex>

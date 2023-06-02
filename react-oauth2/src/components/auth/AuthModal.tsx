@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import {Modal, ModalContent, ModalOverlay} from "@chakra-ui/react";
-import SelectRegistryModalContent from "./SelectRegistryModalContent";
-import BasicSignInModalContent from "./BasicSignInModalContent";
-import BasicSignUpModalContent from "./BasicSignUpModalContent";
+import AbstractSignModalContent from "./auth-modal-content/AbstractSignModalContent";
+import BasicSignInModalContent from "./auth-modal-content/basic-sign-modal-content/BasicSignInModalContent";
+import BasicSignUpModalContent from "./auth-modal-content/basic-sign-modal-content/BasicSignUpModalContent";
 
 export default function AuthModal({
   isOpen,
@@ -29,7 +29,7 @@ export default function AuthModal({
               <BasicSignUpModalContent setBasicLoginOpened={setBasicLoginOpened} closeModal={onClose} />
             )
           ) : (
-            <SelectRegistryModalContent setBasicLoginOpened={setBasicLoginOpened} isSignIn={isSignIn} />
+            <AbstractSignModalContent setBasicLoginOpened={setBasicLoginOpened} isSignIn={isSignIn} />
           )}
         </ModalContent>
       </Modal>
