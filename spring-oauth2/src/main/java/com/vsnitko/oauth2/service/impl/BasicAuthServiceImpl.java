@@ -45,6 +45,7 @@ public class BasicAuthServiceImpl implements BasicAuthService {
 
   @Override
   public SignInResponse basicSignUp(final SignUpRequest signUpRequest) {
+
     final User user = User.builder()
         .name(hasText(signUpRequest.getName()) ? signUpRequest.getName() : DEFAULT_USERNAME)
         .email(signUpRequest.getEmail())
