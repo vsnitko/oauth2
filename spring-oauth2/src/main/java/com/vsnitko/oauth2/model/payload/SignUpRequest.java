@@ -11,12 +11,12 @@ import lombok.Data;
 @Data
 public class SignUpRequest {
 
-  private String name;
+    private String name;
 
-  @NotBlank(message = "No email")
-  @Email(message = "Not an email")
-  private String email;
+    @NotBlank(message = "No email")
+    @Email(message = "Not an email")
+    private String email;
 
-  @NotBlank(message = "No password")
-  private String password;
+    @NotBlank(message = "No password")
+    private String password;
 }

@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SignInRequest {
 
-  @NotBlank(message = "No email")
-  @Email(message = "Not an email")
-  private String email;
+    @NotBlank(message = "Email is not specified")
+    @Email(message = "Not an email")
+    private String email;
 
-  @NotBlank(message = "No password")
-  private String password;
+    @NotBlank(message = "Password is not specified")
+    private String password;
 }

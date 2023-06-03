@@ -26,52 +26,52 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenManagerImpl implements TokenManager {
 
-  private final UserServiceImpl userService;
-  private final JwtProperties jwtProperties;
+    private final UserServiceImpl userService;
+    private final JwtProperties jwtProperties;
 
-  /**
-   * Generates JWT token based on user data and {@link #jwtProperties}
-   */
-  @Override
-  public String createToken(User user) {
-    final Date now = new Date();
-    final Date expired = new Date(now.getTime() + jwtProperties.getExpirationMinutes() * 60 * 1000);
-    final Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
+    /**
+     * Generates JWT token based on user data and {@link #jwtProperties}
+     */
+    @Override
+    public String createToken(User user) {
+        final Date now = new Date();
+        final Date expired = new Date(now.getTime() + jwtProperties.getExpirationMinutes() * 60 * 1000);
+        final Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
 
-    return JWT.create()
-        .withSubject(user.getId().toString())
-        .withClaim("email", user.getEmail())
-        .withClaim("name", user.getName())
-        .withClaim("avatar", user.getAvatar())
-        .withIssuedAt(now)
-        .withExpiresAt(expired)
-        .sign(algorithm);
-  }
-
-  /**
-   * Validates JWT token. Checks secret key and expiration date
-   */
-  @Override
-  public boolean validateToken(String authToken) {
-    try {
-      final Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
-      JWT.require(algorithm)
-          .build()
-          .verify(authToken);
-      return true;
-    } catch (JWTVerificationException e) {
-      log.info("Token is not valid: {}", e.getMessage());
-      return false;
+        return JWT.create()
+            .withSubject(user.getId().toString())
+            .withClaim("email", user.getEmail())
+            .withClaim("name", user.getName())
+            .withClaim("avatar", user.getAvatar())
+            .withIssuedAt(now)
+            .withExpiresAt(expired)
+            .sign(algorithm);
     }
-  }
 
-  /**
-   * Extracts user id from token (decoding) and searches for user with this id in db
-   */
-  @Override
-  public Authentication getAuthentication(String token) {
-    final String userId = JWT.decode(token).getSubject();
-    User user = userService.getById(parseLong(userId));
-    return new UsernamePasswordAuthenticationToken(user, null);
-  }
+    /**
+     * Validates JWT token. Checks secret key and expiration date
+     */
+    @Override
+    public boolean validateToken(String authToken) {
+        try {
+            final Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
+            JWT.require(algorithm)
+                .build()
+                .verify(authToken);
+            return true;
+        } catch (JWTVerificationException e) {
+            log.info("Token is not valid: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Extracts user id from token (decoding) and searches for user with this id in db
+     */
+    @Override
+    public Authentication getAuthentication(String token) {
+        final String userId = JWT.decode(token).getSubject();
+        final User user = userService.getById(parseLong(userId));
+        return new UsernamePasswordAuthenticationToken(user, null);
+    }
 }

@@ -12,7 +12,7 @@ import com.vsnitko.oauth2.model.payload.SignUpRequest;
  */
 public interface BasicAuthService {
 
-  SignInResponse basicSignIn(SignInRequest signInRequest);
+    SignInResponse basicSignIn(SignInRequest signInRequest);
 
-  SignInResponse basicSignUp(SignUpRequest signUpRequest);
+    SignInResponse basicSignUp(SignUpRequest signUpRequest);
 }

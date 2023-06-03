@@ -25,35 +25,35 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BasicAuthServiceImpl implements BasicAuthService {
 
-  public static final String DEFAULT_USERNAME = "Default Username";
+    public static final String DEFAULT_USERNAME = "Default Username";
 
-  private final AuthenticationManager authenticationManager;
-  private final TokenManager tokenManager;
-  private final UserService userService;
-  private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenManager tokenManager;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-  @Override
-  public SignInResponse basicSignIn(final SignInRequest signInRequest) {
-    final var emailPassword =
-        new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
-    Authentication authentication = authenticationManager.authenticate(emailPassword);
+    @Override
+    public SignInResponse basicSignIn(SignInRequest signInRequest) {
+        final var emailPassword =
+            new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword());
+        final Authentication authentication = authenticationManager.authenticate(emailPassword);
 
-    final UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
-    final String token = tokenManager.createToken(principal.getUser());
-    return new SignInResponse(token);
-  }
+        final UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+        final String token = tokenManager.createToken(principal.getUser());
+        return new SignInResponse(token);
+    }
 
-  @Override
-  public SignInResponse basicSignUp(final SignUpRequest signUpRequest) {
+    @Override
+    public SignInResponse basicSignUp(SignUpRequest signUpRequest) {
 
-    final User user = User.builder()
-        .name(hasText(signUpRequest.getName()) ? signUpRequest.getName() : DEFAULT_USERNAME)
-        .email(signUpRequest.getEmail())
-        .password(passwordEncoder.encode(signUpRequest.getPassword()))
-        .build();
-    userService.save(user);
+        final User user = User.builder()
+            .name(hasText(signUpRequest.getName()) ? signUpRequest.getName() : DEFAULT_USERNAME)
+            .email(signUpRequest.getEmail())
+            .password(passwordEncoder.encode(signUpRequest.getPassword()))
+            .build();
+        userService.save(user);
 
-    final String token = tokenManager.createToken(user);
-    return new SignInResponse(token);
-  }
+        final String token = tokenManager.createToken(user);
+        return new SignInResponse(token);
+    }
 }

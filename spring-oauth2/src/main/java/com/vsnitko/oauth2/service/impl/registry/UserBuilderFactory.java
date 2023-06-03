@@ -34,22 +34,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserBuilderFactory implements UserBuilder {
 
-  //key - providerName (or clientRegistrationId); value - service implementation
-  private final Map<String, UserBuilder> services = new HashMap<>();
+    //key - providerName (or clientRegistrationId); value - service implementation
+    private final Map<String, UserBuilder> services = new HashMap<>();
 
-  public UserBuilderFactory(final List<UserBuilder> services) {
-    services.forEach(service -> this.services.put(service.getProviderName(), service));
-  }
+    public UserBuilderFactory(List<UserBuilder> services) {
+        services.forEach(service -> this.services.put(service.getProviderName(), service));
+    }
 
-  @Override
-  public String getProviderName() {
-    throw new IllegalStateException(
-        "This method should not be called directly in factory service. Please, use another implementation");
-  }
+    @Override
+    public String getProviderName() {
+        throw new IllegalStateException(
+            "This method should not be called directly in factory service. Please, use another implementation");
+    }
 
-  @Override
-  public User buildUser(final OAuth2AuthorizedClient authorizedClient, final OAuth2AuthenticationToken oAuth2Token) {
-    final String providerName = oAuth2Token.getAuthorizedClientRegistrationId();
-    return this.services.get(providerName).buildUser(authorizedClient, oAuth2Token);
-  }
+    @Override
+    public User buildUser(OAuth2AuthorizedClient authorizedClient, OAuth2AuthenticationToken oAuth2Token) {
+        final String providerName = oAuth2Token.getAuthorizedClientRegistrationId();
+        return this.services.get(providerName).buildUser(authorizedClient, oAuth2Token);
+    }
 }

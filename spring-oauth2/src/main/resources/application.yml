@@ -17,12 +17,12 @@ spring:
       client:
         registration:
           google:
-            client-id: # should be overwritten
-            client-secret: # should be overwritten
+            client-id: # should be overwritten in application-prod.xml
+            client-secret: # should be overwritten in application-prod.xml
             scope: 'email, profile'
           github:
-            client-id: # should be overwritten
-            client-secret: # should be overwritten
+            client-id: # should be overwritten in application-prod.xml
+            client-secret: # should be overwritten in application-prod.xml
             scope: 'user:email, read:user'
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect

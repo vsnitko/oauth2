@@ -11,9 +11,9 @@ import org.springframework.security.core.Authentication;
  */
 public interface TokenManager {
 
-  String createToken(User user);
+    String createToken(User user);
 
-  boolean validateToken(String authToken);
+    boolean validateToken(String authToken);
 
-  Authentication getAuthentication(String token);
+    Authentication getAuthentication(String token);
 }

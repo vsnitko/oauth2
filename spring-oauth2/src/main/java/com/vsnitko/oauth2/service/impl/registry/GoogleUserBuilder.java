@@ -14,19 +14,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoogleUserBuilder implements UserBuilder {
 
-  @Override
-  public String getProviderName() {
-    return "google";
-  }
+    @Override
+    public String getProviderName() {
+        return "google";
+    }
 
-  @Override
-  public User buildUser(final OAuth2AuthorizedClient authorizedClient, final OAuth2AuthenticationToken oAuth2Token) {
-    final OAuth2User oAuth2User = oAuth2Token.getPrincipal();
-    return User.builder()
-        .name(oAuth2User.getAttribute("name"))
-        .email(oAuth2User.getAttribute("email"))
-        .avatar(oAuth2User.getAttribute("picture"))
-        .emailVerified(oAuth2User.getAttribute("email_verified"))
-        .build();
-  }
+    @Override
+    public User buildUser(OAuth2AuthorizedClient authorizedClient, OAuth2AuthenticationToken oAuth2Token) {
+        final OAuth2User oAuth2User = oAuth2Token.getPrincipal();
+        return User.builder()
+            .name(oAuth2User.getAttribute("name"))
+            .email(oAuth2User.getAttribute("email"))
+            .avatar(oAuth2User.getAttribute("picture"))
+            .emailVerified(oAuth2User.getAttribute("email_verified"))
+            .build();
+    }
 }

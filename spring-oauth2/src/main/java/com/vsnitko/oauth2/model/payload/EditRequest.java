@@ -9,5 +9,5 @@ import lombok.Data;
 @Data
 public class EditRequest {
 
-  private String name;
+    private String name;
 }

@@ -11,6 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
 
-  private String clientPath;
-  private String clientOauth2RedirectEndpoint;
+    private String clientPath;
+    private String clientOauth2RedirectEndpoint;
 }

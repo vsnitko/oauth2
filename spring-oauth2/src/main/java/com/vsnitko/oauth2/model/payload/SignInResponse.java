@@ -11,5 +11,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class SignInResponse {
 
-  private String token;
+    private String token;
 }

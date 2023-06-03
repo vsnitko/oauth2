@@ -5,6 +5,6 @@ package com.vsnitko.oauth2.model.entity;
  * @since 2022.10.15
  */
 public enum Role {
-  ADMIN,
-  USER
+    ADMIN,
+    USER
 }

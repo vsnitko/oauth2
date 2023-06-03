@@ -28,25 +28,25 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private String name;
+    private String name;
 
-  @Column(nullable = false, unique = true)
-  private String email;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-  @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private Role role = Role.USER;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Role role = Role.USER;
 
-  @Column(nullable = false)
-  @Builder.Default
-  private Boolean emailVerified = false;
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean emailVerified = false;
 
-  private String avatar;
+    private String avatar;
 
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private String password;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 }

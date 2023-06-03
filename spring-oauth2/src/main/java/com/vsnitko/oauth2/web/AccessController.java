@@ -22,35 +22,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AccessController {
 
-  public static final String NO_RIGHTS_MESSAGE = "You do not have rights to view this content";
+    public static final String NO_RIGHTS_MESSAGE = "You do not have rights to view this content";
 
-  @GetMapping("/public")
-  public String publicAccess() {
-    return "Content available to everyone";
-  }
-
-  @GetMapping("/authenticated")
-  public String authenticatedAccess(Principal principal) {
-    if (principal != null) {
-      return "Content available to all authenticated users";
+    @GetMapping("/public")
+    public String publicAccess() {
+        return "Content available to everyone";
     }
 
-    return NO_RIGHTS_MESSAGE;
-  }
+    @GetMapping("/authenticated")
+    public String authenticatedAccess(Principal principal) {
+        if (principal != null) {
+            return "Content available to all authenticated users";
+        }
 
-  @GetMapping("/verified")
-  public String verifiedAccess(@AuthenticationPrincipal User principal) {
-    if (principal != null && principal.getEmailVerified()) {
-      return "Content available to all users that verified their emails or were signed-in with oauth2";
+        return NO_RIGHTS_MESSAGE;
     }
-    return NO_RIGHTS_MESSAGE;
-  }
 
-  @GetMapping("/admin")
-  public String adminAccess(@AuthenticationPrincipal User principal) {
-    if (principal != null && principal.getRole() == Role.ADMIN) {
-      return "Content available to admins";
+    @GetMapping("/verified")
+    public String verifiedAccess(@AuthenticationPrincipal User principal) {
+        if (principal != null && principal.getEmailVerified()) {
+            return "Content available to all users that verified their emails or were signed-in with oauth2";
+        }
+        return NO_RIGHTS_MESSAGE;
     }
-    return NO_RIGHTS_MESSAGE;
-  }
+
+    @GetMapping("/admin")
+    public String adminAccess(@AuthenticationPrincipal User principal) {
+        if (principal != null && principal.getRole() == Role.ADMIN) {
+            return "Content available to admins";
+        }
+        return NO_RIGHTS_MESSAGE;
+    }
 }

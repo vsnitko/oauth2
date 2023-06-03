@@ -26,47 +26,51 @@ import org.springframework.web.client.HttpClientErrorException;
 @RequiredArgsConstructor
 public class GithubUserBuilder implements UserBuilder {
 
-  private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-  @Override
-  public String getProviderName() {
-    return "github";
-  }
-
-  @Override
-  public User buildUser(final OAuth2AuthorizedClient authorizedClient, final OAuth2AuthenticationToken oAuth2Token) {
-    final OAuth2User oAuth2User = oAuth2Token.getPrincipal();
-    String email = oAuth2User.getAttribute("email");
-    if (email == null) {
-      email = getPrivateGithubEmail(authorizedClient);
+    @Override
+    public String getProviderName() {
+        return "github";
     }
 
-    return User.builder()
-        .name(oAuth2User.getAttribute("login"))
-        .email(email)
-        .avatar(oAuth2User.getAttribute("avatar_url"))
-        .emailVerified(true).build();
-  }
+    @Override
+    public User buildUser(OAuth2AuthorizedClient authorizedClient, OAuth2AuthenticationToken oAuth2Token) {
+        final OAuth2User oAuth2User = oAuth2Token.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
+        if (email == null) {
+            email = getPrivateGithubEmail(authorizedClient);
+        }
 
-  /**
-   * GitHub hides user email by default, so we should make a call to GitHub API to get private email
-   */
-  private String getPrivateGithubEmail(final OAuth2AuthorizedClient authorizedClient) {
-    final OAuth2AccessToken githubAccessToken = authorizedClient.getAccessToken();
-    final String userUri = authorizedClient.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri();
-    final String githubToken = String.format("%s %s",
-                                             githubAccessToken.getTokenType().getValue(),
-                                             githubAccessToken.getTokenValue());
-
-    try {
-      final String response = Request
-          .get(String.format("%s/emails", userUri))
-          .addHeader(AUTHORIZATION, githubToken)
-          .execute()
-          .handleResponse(new BasicHttpClientResponseHandler());
-      return objectMapper.readValue(response, JsonNode.class).get(0).get("email").textValue();
-    } catch (IOException e) {
-      throw new HttpClientErrorException(HttpStatusCode.valueOf(400), e.getMessage());
+        return User.builder()
+            .name(oAuth2User.getAttribute("login"))
+            .email(email)
+            .avatar(oAuth2User.getAttribute("avatar_url"))
+            .emailVerified(true).build();
     }
-  }
+
+    /**
+     * GitHub hides user email by default, so we should make a call to GitHub API to get private email
+     */
+    private String getPrivateGithubEmail(OAuth2AuthorizedClient authorizedClient) {
+        final OAuth2AccessToken githubAccessToken = authorizedClient.getAccessToken();
+        final String userUri = authorizedClient
+            .getClientRegistration()
+            .getProviderDetails()
+            .getUserInfoEndpoint()
+            .getUri();
+        final String githubToken = String.format("%s %s",
+                                                 githubAccessToken.getTokenType().getValue(),
+                                                 githubAccessToken.getTokenValue());
+
+        try {
+            final String response = Request
+                .get(String.format("%s/emails", userUri))
+                .addHeader(AUTHORIZATION, githubToken)
+                .execute()
+                .handleResponse(new BasicHttpClientResponseHandler());
+            return objectMapper.readValue(response, JsonNode.class).get(0).get("email").textValue();
+        } catch (IOException e) {
+            throw new HttpClientErrorException(HttpStatusCode.valueOf(400), e.getMessage());
+        }
+    }
 }

@@ -11,9 +11,9 @@ import com.vsnitko.oauth2.model.payload.EditRequest;
  */
 public interface UserService {
 
-  User getById(Long id);
+    User getById(Long id);
 
-  void save(User user);
+    void save(User user);
 
-  User edit(EditRequest editRequest, User principal);
+    User edit(EditRequest editRequest, User principal);
 }

@@ -9,7 +9,7 @@ Spring-React project with implementation of both OAuth2 auth and basic auth with
 
 ### Technologies used
 * Backend
-    * Java 19, Spring Boot 3
+    * Java 20, Spring Boot 3
     * MySql database
     * Spring Security 6
 * Frontend
@@ -20,40 +20,57 @@ Spring-React project with implementation of both OAuth2 auth and basic auth with
 ### Before you start
 In order to use authorization through Google or GitHub, you should register your application in these services
 
+Create `application-prod.yml` file in `spring-oauth2/src/main/resources` folder with this content:
+```yaml
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: #paste client id here
+            client-secret: #paste client secret here
+          github:
+            client-id: #paste client id here
+            client-secret: #paste client secret here
+```
+
 #### Google
-Visit https://console.cloud.google.com/apis/credentials
-
-Click "Create Credentials" -> OAuth client ID -> Application Type (Web application). 
-
-In "Authorized redirect URIs" enter `http://localhost:8080/login/oauth2/code/google`
-
-Click "Create" and copy Client ID and Client Secret in application.yml
+1. Visit https://console.cloud.google.com/apis/credentials
+2. Click "Create Credentials" -> OAuth client ID -> Application Type (Web application).
+3. In "Authorized redirect URIs" enter `http://localhost:8080/login/oauth2/code/google`
+4. Click "Create" and copy Client ID and Client Secret in `application-prod.yml`
 
 #### GitHub
-Visit https://github.com/settings/applications/new
+1. Visit https://github.com/settings/applications/new
+2. In "Homepage URL" enter `http://localhost:8080`
+3. In "Authorization callback URL" enter `http://localhost:8080/login/oauth2/code/github`
+4. Click "Register application", generate Client Secret and copy it with Client ID in `application-prod.yml`
 
-In "Homepage URL" enter `http://localhost:8080`
+## How to run
+After setting-up Google and GitHub registries, you can run database, spring and react with docker-compose:
 
-In "Authorization callback URL" enter `http://localhost:8080/login/oauth2/code/github`
+### Run with Docker:
+```console
+docker-compose up
+```
+After this Spring Boot will run on port 8080, React on port 3000
 
-Click "Register application", generate Client Secret and copy it with Client ID in application.yml
+### Run without Docker:
+1. Run MySql manually (password=root;db_name=oauth2_db) or with command
+   ```console
+   docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=oauth2_db mysql:latest
+   ```
+2. Run Spring Boot (server will run on port 8080). From `/spring-oauth2` call command:
+   ```console
+   mvn spring-boot:run -Dspring-boot.run.profiles=prod
+   ```
 
-### How to run
-From project root: 
-
-Run MySql
-#### `docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=oauth2_db mysql:latest`
-
-Run Spring Boot 3 with Java 19 (server will run on port 8080)
-#### `mvn clean install`
-#### `java -jar target/oauth2-demo.jar`
-
-Run React (server will run on port 3000)
-
-From /react-oauth2 (`cd react-oauth2`):
-
-#### `npm install`
-#### `npm start`
+3. Run React (server will run on port 3000). From `/react-oauth2` call command:
+   ```console
+   npm install
+   npm start
+   ```
 
 ### Notes
 * It doesn't matter weather you Sign In or Sign Up if you use OAuth2 providers. 

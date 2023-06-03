@@ -14,41 +14,40 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * Class with onAuthenticationSuccess method that is executed when user was successfully logged-in with OAuth2.
- * Redirects user to path depending on {@link #appProperties}.
- * Full path generated at {@link #determineTargetUrl(HttpServletRequest, HttpServletResponse, Authentication)}
+ * Redirects user to path depending on {@link #appProperties}. Full path generated at
+ * {@link #determineTargetUrl(HttpServletRequest, HttpServletResponse, Authentication)}
  */
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-  private final TokenManager tokenManager;
-  private final AppProperties appProperties;
+    private final TokenManager tokenManager;
+    private final AppProperties appProperties;
 
-  @Override
-  public void onAuthenticationSuccess(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      Authentication authentication
-  ) throws IOException {
-    String targetUrl = determineTargetUrl(request, response, authentication);
+    @Override
+    public void onAuthenticationSuccess(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Authentication authentication
+    ) throws IOException {
+        final String targetUrl = determineTargetUrl(request, response, authentication);
 
-    getRedirectStrategy().sendRedirect(request, response, targetUrl);
-  }
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+    }
 
-  /**
-   * Generates redirect URL path. Sets JWT token to URL query param
-   */
-  @Override
-  protected String determineTargetUrl(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      Authentication authentication
-  ) {
-    String token = tokenManager.createToken((User) authentication.getDetails());
-
-    return UriComponentsBuilder.fromUriString(
-            appProperties.getClientPath() + appProperties.getClientOauth2RedirectEndpoint())
-        .queryParam("token", token)
-        .build().toUriString();
-  }
+    /**
+     * Generates redirect URL path. Sets JWT token to URL query param
+     */
+    @Override
+    protected String determineTargetUrl(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Authentication authentication
+    ) {
+        final String token = tokenManager.createToken((User) authentication.getDetails());
+        final String uri = appProperties.getClientPath() + appProperties.getClientOauth2RedirectEndpoint();
+        return UriComponentsBuilder.fromUriString(uri)
+            .queryParam("token", token)
+            .build().toUriString();
+    }
 }

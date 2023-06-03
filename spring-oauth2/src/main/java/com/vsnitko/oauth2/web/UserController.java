@@ -22,17 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserServiceImpl userService;
-  private final ObjectMapper objectMapper;
+    private final UserServiceImpl userService;
+    private final ObjectMapper objectMapper;
 
-  @GetMapping
-  public UserResponse getPrincipal(@AuthenticationPrincipal User principal) {
-    return objectMapper.convertValue(principal, UserResponse.class);
-  }
+    @GetMapping
+    public UserResponse getPrincipal(@AuthenticationPrincipal User principal) {
+        return objectMapper.convertValue(principal, UserResponse.class);
+    }
 
-  @PostMapping("/edit")
-  public UserResponse edit(@RequestBody EditRequest editRequest, @AuthenticationPrincipal User principal) {
-    final User editedUser = userService.edit(editRequest, principal);
-    return objectMapper.convertValue(editedUser, UserResponse.class);
-  }
+    @PostMapping("/edit")
+    public UserResponse edit(@RequestBody EditRequest editRequest, @AuthenticationPrincipal User principal) {
+        final User editedUser = userService.edit(editRequest, principal);
+        return objectMapper.convertValue(editedUser, UserResponse.class);
+    }
 }
