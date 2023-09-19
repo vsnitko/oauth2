@@ -17,39 +17,39 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @ExtendWith(MockitoExtension.class)
 class GoogleUserBuilderTest {
 
-  @Mock
-  private OAuth2AuthorizedClient authorizedClient;
+    @Mock
+    private OAuth2AuthorizedClient authorizedClient;
 
-  @Mock
-  private OAuth2AuthenticationToken oAuth2Token;
+    @Mock
+    private OAuth2AuthenticationToken oAuth2Token;
 
-  @Mock
-  private OAuth2User oAuth2User;
+    @Mock
+    private OAuth2User oAuth2User;
 
-  @InjectMocks
-  private GoogleUserBuilder googleUserBuilder;
+    @InjectMocks
+    private GoogleUserBuilder googleUserBuilder;
 
-  @Test
-  void getProviderName() {
-    assertEquals("google", googleUserBuilder.getProviderName());
-  }
+    @Test
+    void getProviderName() {
+        assertEquals("google", googleUserBuilder.getProviderName());
+    }
 
-  @Test
-  public void buildUser() {
-    final String name = "name";
-    final String email = "email";
-    final String avatar = "avatar";
-    when(oAuth2Token.getPrincipal()).thenReturn(oAuth2User);
-    when(oAuth2User.getAttribute("name")).thenReturn(name);
-    when(oAuth2User.getAttribute("email")).thenReturn(email);
-    when(oAuth2User.getAttribute("picture")).thenReturn(avatar);
-    when(oAuth2User.getAttribute("email_verified")).thenReturn(true);
+    @Test
+    public void buildUser() {
+        final String name = "name";
+        final String email = "email";
+        final String avatar = "avatar";
+        when(oAuth2Token.getPrincipal()).thenReturn(oAuth2User);
+        when(oAuth2User.getAttribute("name")).thenReturn(name);
+        when(oAuth2User.getAttribute("email")).thenReturn(email);
+        when(oAuth2User.getAttribute("picture")).thenReturn(avatar);
+        when(oAuth2User.getAttribute("email_verified")).thenReturn(true);
 
-    User user = googleUserBuilder.buildUser(authorizedClient, oAuth2Token);
+        User user = googleUserBuilder.buildUser(authorizedClient, oAuth2Token);
 
-    assertEquals(name, user.getName());
-    assertEquals(email, user.getEmail());
-    assertEquals(avatar, user.getAvatar());
-    assertTrue(user.getEmailVerified());
-  }
+        assertEquals(name, user.getName());
+        assertEquals(email, user.getEmail());
+        assertEquals(avatar, user.getAvatar());
+        assertTrue(user.getEmailVerified());
+    }
 }

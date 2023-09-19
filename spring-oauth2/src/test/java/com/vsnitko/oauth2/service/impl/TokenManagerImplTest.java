@@ -29,106 +29,106 @@ import org.springframework.security.core.Authentication;
 @ExtendWith(MockitoExtension.class)
 class TokenManagerImplTest {
 
-  @Mock
-  UserServiceImpl userService;
+    @Mock
+    UserServiceImpl userService;
 
-  @Mock
-  JwtProperties jwtProperties;
+    @Mock
+    JwtProperties jwtProperties;
 
-  @InjectMocks
-  TokenManagerImpl tokenManager;
+    @InjectMocks
+    TokenManagerImpl tokenManager;
 
-  @BeforeEach
-  void setUp() {
-    when(jwtProperties.getSecretKey()).thenReturn("secret");
-  }
-
-  @Test
-  void createToken() {
-    final String name = "name";
-    final String email = "email";
-    final String avatar = "avatar";
-    final String expectedToken = "token";
-    User user = new User()
-        .setId(1L)
-        .setName(name)
-        .setEmail(email)
-        .setAvatar(avatar);
-
-    try (
-        MockedStatic<JWT> mockedJwt = mockStatic(JWT.class);
-        MockedStatic<Algorithm> mockedAlgorithm = mockStatic(Algorithm.class)
-    ) {
-      final JWTCreator.Builder mockBuilder = mock(JWTCreator.Builder.class);
-      final Algorithm algorithm = mock(Algorithm.class);
-      mockedJwt.when(JWT::create).thenReturn(mockBuilder);
-      mockedAlgorithm.when(() -> Algorithm.HMAC256(any(String.class))).thenReturn(algorithm);
-      when(JWT.create().withSubject(any(String.class))).thenReturn(mockBuilder);
-      when(JWT.create().withClaim(any(String.class), any(String.class))).thenReturn(mockBuilder);
-      when(JWT.create().withIssuedAt(any(Date.class))).thenReturn(mockBuilder);
-      when(JWT.create().withExpiresAt(any(Date.class))).thenReturn(mockBuilder);
-      when(JWT.create().sign(algorithm)).thenReturn(expectedToken);
-
-      String token = tokenManager.createToken(user);
-
-      verify(JWT.create(), times(1)).withSubject(user.getId().toString());
-      verify(JWT.create(), times(1)).withClaim(email, user.getEmail());
-      verify(JWT.create(), times(1)).withClaim(name, user.getName());
-      verify(JWT.create(), times(1)).withClaim(avatar, user.getAvatar());
-      verify(JWT.create(), times(1)).withIssuedAt(any(Date.class));
-      verify(JWT.create(), times(1)).withExpiresAt(any(Date.class));
-      verify(JWT.create(), times(1)).sign(algorithm);
-
-      assertEquals(expectedToken, token);
+    @BeforeEach
+    void setUp() {
+        when(jwtProperties.getSecretKey()).thenReturn("secret");
     }
-  }
 
-  @Test
-  public void validateToken_valid() {
-    when(jwtProperties.getExpirationMinutes()).thenReturn(1L);
-    final String generatedToken = tokenManager.createToken(new User().setId(1L));
+    @Test
+    void createToken() {
+        final String name = "name";
+        final String email = "email";
+        final String avatar = "avatar";
+        final String expectedToken = "token";
+        User user = new User()
+            .setId(1L)
+            .setName(name)
+            .setEmail(email)
+            .setAvatar(avatar);
 
-    when(jwtProperties.getSecretKey()).thenReturn("secret");
+        try (
+            MockedStatic<JWT> mockedJwt = mockStatic(JWT.class);
+            MockedStatic<Algorithm> mockedAlgorithm = mockStatic(Algorithm.class)
+        ) {
+            final JWTCreator.Builder mockBuilder = mock(JWTCreator.Builder.class);
+            final Algorithm algorithm = mock(Algorithm.class);
+            mockedJwt.when(JWT::create).thenReturn(mockBuilder);
+            mockedAlgorithm.when(() -> Algorithm.HMAC256(any(String.class))).thenReturn(algorithm);
+            when(JWT.create().withSubject(any(String.class))).thenReturn(mockBuilder);
+            when(JWT.create().withClaim(any(String.class), any(String.class))).thenReturn(mockBuilder);
+            when(JWT.create().withIssuedAt(any(Date.class))).thenReturn(mockBuilder);
+            when(JWT.create().withExpiresAt(any(Date.class))).thenReturn(mockBuilder);
+            when(JWT.create().sign(algorithm)).thenReturn(expectedToken);
 
-    boolean isValid = tokenManager.validateToken(generatedToken);
+            String token = tokenManager.createToken(user);
 
-    assertTrue(isValid);
-  }
+            verify(JWT.create(), times(1)).withSubject(user.getId().toString());
+            verify(JWT.create(), times(1)).withClaim(email, user.getEmail());
+            verify(JWT.create(), times(1)).withClaim(name, user.getName());
+            verify(JWT.create(), times(1)).withClaim(avatar, user.getAvatar());
+            verify(JWT.create(), times(1)).withIssuedAt(any(Date.class));
+            verify(JWT.create(), times(1)).withExpiresAt(any(Date.class));
+            verify(JWT.create(), times(1)).sign(algorithm);
 
-  @Test
-  void validateToken_invalid_wrongSecret() {
-    when(jwtProperties.getExpirationMinutes()).thenReturn(1L);
-    final String generatedToken = tokenManager.createToken(new User().setId(1L));
+            assertEquals(expectedToken, token);
+        }
+    }
 
-    when(jwtProperties.getSecretKey()).thenReturn("wrongSecret");
+    @Test
+    public void validateToken_valid() {
+        when(jwtProperties.getExpirationMinutes()).thenReturn(1L);
+        final String generatedToken = tokenManager.createToken(new User().setId(1L));
 
-    boolean isValid = tokenManager.validateToken(generatedToken);
+        when(jwtProperties.getSecretKey()).thenReturn("secret");
 
-    assertFalse(isValid);
-  }
+        boolean isValid = tokenManager.validateToken(generatedToken);
 
-  @Test
-  void getAuthentication_invalid_expired() {
-    final String generatedToken = tokenManager.createToken(new User().setId(1L));
+        assertTrue(isValid);
+    }
 
-    when(jwtProperties.getSecretKey()).thenReturn("secret");
+    @Test
+    void validateToken_invalid_wrongSecret() {
+        when(jwtProperties.getExpirationMinutes()).thenReturn(1L);
+        final String generatedToken = tokenManager.createToken(new User().setId(1L));
 
-    boolean isValid = tokenManager.validateToken(generatedToken);
+        when(jwtProperties.getSecretKey()).thenReturn("wrongSecret");
 
-    assertFalse(isValid);
-  }
+        boolean isValid = tokenManager.validateToken(generatedToken);
 
-  @Test
-  void getAuthentication_returnsAuthenticationWithUser() {
-    final long id = 1L;
-    final String generatedToken = tokenManager.createToken(new User().setId(id));
-    final User foundUser = new User();
+        assertFalse(isValid);
+    }
 
-    when(userService.getById(id)).thenReturn(foundUser);
+    @Test
+    void getAuthentication_invalid_expired() {
+        final String generatedToken = tokenManager.createToken(new User().setId(1L));
 
-    final Authentication actualPrincipal = tokenManager.getAuthentication(generatedToken);
+        when(jwtProperties.getSecretKey()).thenReturn("secret");
 
-    verify(userService, times(1)).getById(id);
-    assertSame(foundUser, actualPrincipal.getPrincipal());
-  }
+        boolean isValid = tokenManager.validateToken(generatedToken);
+
+        assertFalse(isValid);
+    }
+
+    @Test
+    void getAuthentication_returnsAuthenticationWithUser() {
+        final long id = 1L;
+        final String generatedToken = tokenManager.createToken(new User().setId(id));
+        final User foundUser = new User();
+
+        when(userService.getById(id)).thenReturn(foundUser);
+
+        final Authentication actualPrincipal = tokenManager.getAuthentication(generatedToken);
+
+        verify(userService, times(1)).getById(id);
+        assertSame(foundUser, actualPrincipal.getPrincipal());
+    }
 }

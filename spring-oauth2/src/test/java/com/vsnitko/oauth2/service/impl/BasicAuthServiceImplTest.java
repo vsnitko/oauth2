@@ -29,70 +29,71 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ExtendWith(MockitoExtension.class)
 class BasicAuthServiceImplTest {
 
-  @Mock
-  AuthenticationManager authenticationManager;
+    @Mock
+    AuthenticationManager authenticationManager;
 
-  @Mock
-  TokenManager tokenManager;
+    @Mock
+    TokenManager tokenManager;
 
-  @Mock
-  UserService userService;
+    @Mock
+    UserService userService;
 
-  @Mock
-  PasswordEncoder passwordEncoder;
+    @Mock
+    PasswordEncoder passwordEncoder;
 
-  @InjectMocks
-  BasicAuthServiceImpl basicAuthService;
+    @InjectMocks
+    BasicAuthServiceImpl basicAuthService;
 
-  @Test
-  void basicSignIn() {
-    Authentication authentication = new UsernamePasswordAuthenticationToken(new UserDetailsImpl(new User()), null);
-    String expectedToken = "anyToken";
+    @Test
+    void basicSignIn() {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(new UserDetailsImpl(new User()), null);
+        String expectedToken = "anyToken";
 
-    when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
-    when(tokenManager.createToken(any(User.class))).thenReturn(expectedToken);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(
+            authentication);
+        when(tokenManager.createToken(any(User.class))).thenReturn(expectedToken);
 
-    SignInResponse signInResponse = basicAuthService.basicSignIn(new SignInRequest());
+        SignInResponse signInResponse = basicAuthService.basicSignIn(new SignInRequest());
 
-    verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-    verify(tokenManager, times(1)).createToken(any(User.class));
+        verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        verify(tokenManager, times(1)).createToken(any(User.class));
 
-    assertEquals(expectedToken, signInResponse.getToken());
-  }
+        assertEquals(expectedToken, signInResponse.getToken());
+    }
 
-  @Test
-  void basicSignUp() {
-    String expectedToken = "anyToken";
+    @Test
+    void basicSignUp() {
+        String expectedToken = "anyToken";
 
-    when(tokenManager.createToken(any(User.class))).thenReturn(expectedToken);
+        when(tokenManager.createToken(any(User.class))).thenReturn(expectedToken);
 
-    SignInResponse signInResponse = basicAuthService.basicSignUp(new SignUpRequest());
+        SignInResponse signInResponse = basicAuthService.basicSignUp(new SignUpRequest());
 
-    verify(userService, times(1)).save(any(User.class));
-    verify(passwordEncoder, times(1)).encode(any());
-    verify(tokenManager, times(1)).createToken(any(User.class));
+        verify(userService, times(1)).save(any(User.class));
+        verify(passwordEncoder, times(1)).encode(any());
+        verify(tokenManager, times(1)).createToken(any(User.class));
 
-    assertEquals(expectedToken, signInResponse.getToken());
-  }
+        assertEquals(expectedToken, signInResponse.getToken());
+    }
 
-  @Captor
-  ArgumentCaptor<User> userCaptor;
+    @Captor
+    ArgumentCaptor<User> userCaptor;
 
-  @Test
-  void basicSignUp_when_usernameIsEmpty_then_useDefaultUsername() {
-    final String name = "anyName";
+    @Test
+    void basicSignUp_when_usernameIsEmpty_then_useDefaultUsername() {
+        final String name = "anyName";
 
-    basicAuthService.basicSignUp(new SignUpRequest().setName(name));
+        basicAuthService.basicSignUp(new SignUpRequest().setName(name));
 
-    verify(userService, times(1)).save(userCaptor.capture());
-    assertEquals(name, userCaptor.getValue().getName());
-  }
+        verify(userService, times(1)).save(userCaptor.capture());
+        assertEquals(name, userCaptor.getValue().getName());
+    }
 
-  @Test
-  void basicSignUp_when_usernameNotEmpty_then_useThisUsername() {
-    basicAuthService.basicSignUp(new SignUpRequest());
+    @Test
+    void basicSignUp_when_usernameNotEmpty_then_useThisUsername() {
+        basicAuthService.basicSignUp(new SignUpRequest());
 
-    verify(userService, times(1)).save(userCaptor.capture());
-    assertEquals(DEFAULT_USERNAME, userCaptor.getValue().getName());
-  }
+        verify(userService, times(1)).save(userCaptor.capture());
+        assertEquals(DEFAULT_USERNAME, userCaptor.getValue().getName());
+    }
 }
