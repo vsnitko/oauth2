@@ -3,20 +3,16 @@ package com.vsnitko.oauth2.service.impl.registry;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vsnitko.oauth2.model.entity.User;
 import com.vsnitko.oauth2.service.UserBuilder;
-import java.io.IOException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.apache.hc.client5.http.fluent.Request;
-import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClient;
 
 /**
  * @author v.snitko
@@ -26,7 +22,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @RequiredArgsConstructor
 public class GithubUserBuilder implements UserBuilder {
 
-    private final ObjectMapper objectMapper;
+    private final RestClient restClient;
 
     @Override
     public String getProviderName() {
@@ -62,15 +58,12 @@ public class GithubUserBuilder implements UserBuilder {
                                                  githubAccessToken.getTokenType().getValue(),
                                                  githubAccessToken.getTokenValue());
 
-        try {
-            final String response = Request
-                .get(String.format("%s/emails", userUri))
-                .addHeader(AUTHORIZATION, githubToken)
-                .execute()
-                .handleResponse(new BasicHttpClientResponseHandler());
-            return objectMapper.readValue(response, JsonNode.class).get(0).get("email").textValue();
-        } catch (IOException e) {
-            throw new HttpClientErrorException(HttpStatusCode.valueOf(400), e.getMessage());
-        }
+        final JsonNode jsonNode = restClient
+            .get()
+            .uri(String.format("%s/emails", userUri))
+            .header(AUTHORIZATION, githubToken)
+            .retrieve()
+            .body(JsonNode.class);
+        return Objects.requireNonNull(jsonNode).get(0).get("email").textValue();
     }
 }
