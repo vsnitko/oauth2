@@ -1,5 +1,9 @@
+server:
+  servlet:
+    context-path: /api
 app:
   client-path: http://localhost:3000
+  server-path: http://localhost:8080/api
   client-oauth2-redirect-endpoint: /oauth2/redirect
   jwt:
     expirationMinutes: 999999
@@ -7,24 +11,40 @@ app:
 logging:
   level:
     com.vsnitko.oauth2.filter.LoggingFilter: INFO
+
 spring:
   datasource:
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/oauth2_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
       client:
+        # You have 3 options to set secret variables:
+        # 1. Set secrets in environment variables, e.g. GOOGLE_CLIENT_ID. After setting, restart IDEA/cmd.
+        # Run command 'echo %GOOGLE_CLIENT_ID%' or 'echo $Env:GOOGLE_CLIENT_ID'
+        # in IDEA's terminal/cmd (depends on where you're running app) to make sure that variable was set
+        # 2. Replace "X" with actual secret value
+        # 3. Do nothing. In this case registration with Google/GitHub just won't work
         registration:
           google:
-            client-id: # should be overwritten in application-prod.xml
-            client-secret: # should be overwritten in application-prod.xml
+            client-id: ${GOOGLE_CLIENT_ID:X}
+            client-secret: ${GOOGLE_CLIENT_SECRET:X}
             scope: 'email, profile'
+            redirect-uri: ${app.server-path}/login/oauth2/code/{registrationId}
           github:
-            client-id: # should be overwritten in application-prod.xml
-            client-secret: # should be overwritten in application-prod.xml
+            client-id: ${GITHUB_CLIENT_ID:X}
+            client-secret: ${GITHUB_CLIENT_SECRET:X}
             scope: 'user:email, read:user'
+            redirect-uri: ${app.server-path}/login/oauth2/code/{registrationId}
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    protocol: smtps
+    username: vitalisnitko@yandex.by
+    password: ${EMAIL_PASSWORD:X}

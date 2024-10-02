@@ -39,8 +39,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set PORT=3000 && react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env REACT_APP_API_URL=http://localhost:8080/api react-scripts start",
+    "build:local": "cross-env REACT_APP_API_URL=http://localhost:8080/api react-scripts build",
+    "build": "cross-env REACT_APP_API_URL=http://84.201.153.184:8080/api react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -64,6 +65,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
+    "cross-env": "^7.0.3",
     "prettier": "2.7.1"
   },
   "prettier": {

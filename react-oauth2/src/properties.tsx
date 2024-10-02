@@ -1,3 +1,3 @@
 export const config = {
-  backendPath: "http://localhost:8080",
+  backendPath: process.env.REACT_APP_API_URL
 };

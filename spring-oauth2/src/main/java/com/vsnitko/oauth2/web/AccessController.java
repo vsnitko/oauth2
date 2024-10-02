@@ -1,8 +1,14 @@
 package com.vsnitko.oauth2.web;
 
+import static com.vsnitko.oauth2.web.Constants.ADMIN_ACCESS_PATH;
+import static com.vsnitko.oauth2.web.Constants.AUTHENTICATED_ACCESS_PATH;
+import static com.vsnitko.oauth2.web.Constants.CHECK_ACCESS_PATH;
+import static com.vsnitko.oauth2.web.Constants.NO_RIGHTS_MESSAGE;
+import static com.vsnitko.oauth2.web.Constants.PUBLIC_ACCESS_PATH;
+import static com.vsnitko.oauth2.web.Constants.VERIFIED_ACCESS_PATH;
+
 import com.vsnitko.oauth2.model.entity.Role;
 import com.vsnitko.oauth2.model.entity.User;
-import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,19 +24,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/check-access")
+@RequestMapping(CHECK_ACCESS_PATH)
 @RequiredArgsConstructor
 public class AccessController {
 
-    public static final String NO_RIGHTS_MESSAGE = "You do not have rights to view this content";
-
-    @GetMapping("/public")
+    @GetMapping(PUBLIC_ACCESS_PATH)
     public String publicAccess() {
         return "Content available to everyone";
     }
 
-    @GetMapping("/authenticated")
-    public String authenticatedAccess(Principal principal) {
+    @GetMapping(AUTHENTICATED_ACCESS_PATH)
+    public String authenticatedAccess(@AuthenticationPrincipal User principal) {
         if (principal != null) {
             return "Content available to all authenticated users";
         }
@@ -38,7 +42,7 @@ public class AccessController {
         return NO_RIGHTS_MESSAGE;
     }
 
-    @GetMapping("/verified")
+    @GetMapping(VERIFIED_ACCESS_PATH)
     public String verifiedAccess(@AuthenticationPrincipal User principal) {
         if (principal != null && principal.getEmailVerified()) {
             return "Content available to all users that verified their emails or were signed-in with oauth2";
@@ -46,7 +50,7 @@ public class AccessController {
         return NO_RIGHTS_MESSAGE;
     }
 
-    @GetMapping("/admin")
+    @GetMapping(ADMIN_ACCESS_PATH)
     public String adminAccess(@AuthenticationPrincipal User principal) {
         if (principal != null && principal.getRole() == Role.ADMIN) {
             return "Content available to admins";
