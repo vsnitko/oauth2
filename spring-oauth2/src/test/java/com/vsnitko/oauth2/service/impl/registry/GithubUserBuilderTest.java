@@ -25,7 +25,8 @@ import org.springframework.web.client.RestClient;
 class GithubUserBuilderTest {
 
     private static final OAuth2AuthorizedClient AUTHORIZED_CLIENT = new OAuth2AuthorizedClient(
-        ClientRegistration.withRegistrationId("any").authorizationGrantType(AuthorizationGrantType.JWT_BEARER).build(),
+        ClientRegistration.withRegistrationId("any")
+            .authorizationGrantType(AuthorizationGrantType.JWT_BEARER).build(),
         "any",
         new OAuth2AccessToken(
             OAuth2AccessToken.TokenType.BEARER,
@@ -45,11 +46,11 @@ class GithubUserBuilderTest {
     @Mock
     RestClient.ResponseSpec responseSpec;
 
-    @InjectMocks
-    GithubUserBuilder githubUserBuilder;
-
     @Mock(answer = RETURNS_DEEP_STUBS)
     JsonNode jsonNodeMock;
+
+    @InjectMocks
+    GithubUserBuilder githubUserBuilder;
 
     @Test
     void testGetProviderName() {
@@ -78,7 +79,6 @@ class GithubUserBuilderTest {
         assertEquals(expectedEmail, actualUser.getEmail());
         assertEquals(expectedLogin, actualUser.getName());
         assertEquals(expectedAvatar, actualUser.getAvatar());
-
     }
 
     @Test

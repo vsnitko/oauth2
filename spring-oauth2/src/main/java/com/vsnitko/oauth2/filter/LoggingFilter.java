@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Bean;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
@@ -33,7 +34,7 @@ public class LoggingFilter {
     public CommonsRequestLoggingFilter logFilter() {
         final CommonsRequestLoggingFilter filter = new CommonsRequestLoggingFilter() {
             @Override
-            public void afterRequest(HttpServletRequest request, String message) {
+            public void afterRequest(@NonNull HttpServletRequest request, @NonNull String message) {
                 // As CommonsRequestLoggingFilter handles 2 logs ('before' and 'after' request),
                 // I need only 'before' request log, that's why I leave this body empty
             }

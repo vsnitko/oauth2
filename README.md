@@ -9,77 +9,65 @@ Spring-React project with implementation of both OAuth2 auth and basic auth with
 
 ### Technologies used
 * Backend
-    * Java 20, Spring Boot 3
-    * MySql database
+    * Java 21, Spring Boot 3, Maven
+    * MySql 
     * Spring Security 6
 * Frontend
     * React 18 (TypeScript based)
+    * Nginx
     * Redux Toolkit
     * Chakra UI
+* CI/CD
+    * Jenkins
+    * Docker, docker-compose
 
 ### Before you start
 In order to use authorization through Google or GitHub, you should register your application in these services
-
-Create `application-prod.yml` file in `spring-oauth2/src/main/resources` folder with this content:
-```yaml
-spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: #paste client id here
-            client-secret: #paste client secret here
-          github:
-            client-id: #paste client id here
-            client-secret: #paste client secret here
-```
 
 #### Google
 1. Visit https://console.cloud.google.com/apis/credentials
 2. Click "Create Credentials" -> OAuth client ID -> Application Type (Web application).
 3. In "Authorized redirect URIs" enter `http://localhost:8080/login/oauth2/code/google`
-4. Click "Create" and copy Client ID and Client Secret in `application-prod.yml`
+4. Click "Create" and copy Client ID and Client Secret in `application.yml` or env variables
 
 #### GitHub
 1. Visit https://github.com/settings/applications/new
 2. In "Homepage URL" enter `http://localhost:8080`
 3. In "Authorization callback URL" enter `http://localhost:8080/login/oauth2/code/github`
-4. Click "Register application", generate Client Secret and copy it with Client ID in `application-prod.yml`
+4. Click "Register application", generate Client Secret and copy it with Client ID in `application.yml` or env variables
+
+Using env variables is preferred way, after setting don't forget to restart IDEA/cmd.
+
+If you paste variables in `application.yml`, docker-compose will fail 
+because it overrides properties in `application.yml`. 
+To solve this you can delete `environment:` section in `docker-compose.yml` 
+or run spring and react in a basic way (e.g. with IntelliJ IDEA). 
 
 ## How to run
-After setting-up Google and GitHub registries, you can run database, spring and react with docker-compose:
+After setting-up Google and GitHub registries, you can run app using docker-compose
+or each service separately:
 
-### Run with Docker:
-```console
-docker-compose up
-```
-After this Spring Boot will run on port 8080, React on port 3000
+### Run each service separately
+1. Run MySql server manually (password=root;db_name=oauth2_db) or with command `docker-compose up -d mysql`
+2. Run Spring app
+    * IntelliJ IDEA. In file `spring-oauth2/src/main/java/com/vsnitko/oauth2/Oauth2Application.java` 
+    click green run button on Oauth2Application class
+    * cmd. From `spring-oauth2` run `mvn spring-boot:run`    
+3. Run React app 
+   * IntelliJ IDEA. In file `react-oauth2/package.json` click green button in "scripts"."start"
+   * cmd. From `react-oauth2` run `npm install` and `npm start`
 
-### Run without Docker:
-1. Run MySql manually (password=root;db_name=oauth2_db) or with command
-   ```console
-   docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=oauth2_db mysql:latest
-   ```
-2. Run Spring Boot (server will run on port 8080). From `/spring-oauth2` call command:
-   ```console
-   mvn spring-boot:run -Dspring-boot.run.profiles=prod
-   ```
+### Run with docker-compose:
+1. Make sure that env variables are set e.g. with `echo %GOOGLE_CLIENT_ID%` or `echo $Env:GOOGLE_CLIENT_ID`. 
+Or delete `environment:` section in `docker-compose.yml`
+2. You can run commands below after `ctrl` double click in IDEA or in corresponding folders in cmd
+3. Build react app with `npm install` and `npm run build:local`
+4. Build spring app with `mvn package -DskipTests`
+5. Run `docker-compose up -d`
 
-3. Run React (server will run on port 3000). From `/react-oauth2` call command:
-   ```console
-   npm install
-   npm start
-   ```
-
-### Notes
-* It doesn't matter weather you Sign In or Sign Up if you use OAuth2 providers. 
-User will be created if you didn't signed-up it previously, or you will be signed-in if you did
-* If different providers provide the same email, it will be qualified as the same user in this app
-
-### Known issues / Points to improve
-* Refresh token is not supported
-* Not possible to update user avatar
-* Not possible to verify email for basic auth
-
-
+### Known issues / Points to improve / TODO
+* Do global update for chatting
+* Consider building frontend in webpack
+* Add Jenkins deployment guide to README
+* Refresh jwt token is not supported
+* Api for default avatar outdated

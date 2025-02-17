@@ -9,6 +9,8 @@ import VerifiedAccess from "./components/navbar/navbar-content/access-enpoints/V
 import AdminAccess from "./components/navbar/navbar-content/access-enpoints/AdminAccess";
 import OAuth2RedirectHandler from "./components/auth/OAuth2RedirectHandler";
 import {Box, Flex} from "@chakra-ui/react";
+import EmailVerification from "./components/auth/EmaiVerification";
+
 
 const App = () => {
   return (
@@ -24,6 +26,7 @@ const App = () => {
             <Route path="verified" element={<VerifiedAccess />} />
             <Route path="/admin" element={<AdminAccess />} />
             <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+            <Route path="/verification" element={<EmailVerification />} />
           </Routes>
         </Box>
       </Flex>

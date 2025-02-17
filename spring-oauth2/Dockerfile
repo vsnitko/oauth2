@@ -1,2 +1,4 @@
-FROM openjdk:20
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","../target/oauth2-demo.jar"]
+FROM openjdk:21
+COPY target/oauth2-demo.jar oauth2-demo.jar
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","oauth2-demo.jar"]
+EXPOSE 8080

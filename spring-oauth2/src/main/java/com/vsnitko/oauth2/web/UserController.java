@@ -1,5 +1,8 @@
 package com.vsnitko.oauth2.web;
 
+import static com.vsnitko.oauth2.web.Constants.EDIT_USER_PATH;
+import static com.vsnitko.oauth2.web.Constants.USER_INFO_PATH;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vsnitko.oauth2.model.entity.User;
 import com.vsnitko.oauth2.model.payload.EditRequest;
@@ -18,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022.12.26
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping(USER_INFO_PATH)
 @RequiredArgsConstructor
 public class UserController {
 
@@ -30,7 +33,7 @@ public class UserController {
         return objectMapper.convertValue(principal, UserResponse.class);
     }
 
-    @PostMapping("/edit")
+    @PostMapping(EDIT_USER_PATH)
     public UserResponse edit(@RequestBody EditRequest editRequest, @AuthenticationPrincipal User principal) {
         final User editedUser = userService.edit(editRequest, principal);
         return objectMapper.convertValue(editedUser, UserResponse.class);

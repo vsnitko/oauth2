@@ -33,4 +33,3 @@ build/
 .vscode/
 
 /react-oauth2/node_modules/
-application-prod.yml

@@ -8,6 +8,7 @@ import com.vsnitko.oauth2.model.payload.SignInRequest;
 import com.vsnitko.oauth2.model.payload.SignInResponse;
 import com.vsnitko.oauth2.model.payload.SignUpRequest;
 import com.vsnitko.oauth2.service.BasicAuthService;
+import com.vsnitko.oauth2.service.MailService;
 import com.vsnitko.oauth2.service.TokenManager;
 import com.vsnitko.oauth2.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class BasicAuthServiceImpl implements BasicAuthService {
     private final TokenManager tokenManager;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     @Override
     public SignInResponse basicSignIn(SignInRequest signInRequest) {
@@ -52,8 +54,8 @@ public class BasicAuthServiceImpl implements BasicAuthService {
             .password(passwordEncoder.encode(signUpRequest.getPassword()))
             .build();
         userService.save(user);
+        mailService.sendVerificationEmail(user);
 
-        final String token = tokenManager.createToken(user);
-        return new SignInResponse(token);
+        return new SignInResponse(tokenManager.createToken(user));
     }
 }
