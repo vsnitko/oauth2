@@ -1,5 +1,0 @@
-FROM openjdk:21
-COPY target/oauth2-demo.jar oauth2-demo.jar
-#for debugging in local docker
-ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090","-jar","-Dspring.profiles.active=local","oauth2-demo.jar"]
-EXPOSE 8080
