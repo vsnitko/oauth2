@@ -1,0 +1,24 @@
+.left-bar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 30rem;
+    min-width: 20rem;
+    max-width: 40rem;
+    padding-right: 0.25rem;
+    resize: horizontal;
+    background-color: rgb(255, 255, 255);
+}
+
+.resizer {
+    position: absolute;
+    right: calc(var(--width) / -2);
+    width: var(--width);
+    height: 100%;
+    cursor: ew-resize;
+    --width: 0.25rem;
+    border-left: #EDF2F7 1px solid;
+}
+
+

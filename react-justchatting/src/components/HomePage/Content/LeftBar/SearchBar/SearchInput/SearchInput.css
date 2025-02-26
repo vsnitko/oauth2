@@ -1,0 +1,40 @@
+.input-box {
+    display: flex;
+
+    height: 2.75rem;
+    border-radius: 2rem;
+    padding: 0 0.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    transition-property: width;
+    transition-duration: 0.2s;
+}
+
+.search-box {
+    background-color: #F4F4F5;
+    flex-grow: 1;
+}
+
+.search-icon {
+    height: 1.25rem;
+}
+
+.input {
+    font-family: inherit;
+    font-size: inherit;
+    height: 100%;
+    font-weight: 400;
+    background-color: transparent;
+    border: none;
+    flex-grow: 1;
+    width: 0;
+}
+
+.input::placeholder {
+    color: #A2ACB4;
+}
+
+.input:focus {
+    border: none;
+    outline: none;
+}
