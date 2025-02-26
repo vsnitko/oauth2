@@ -1,0 +1,13 @@
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0 0.5rem;
+    overflow: hidden;
+}
+
+.content {
+    width: var(--main-width-responsive);
+    display: flex;
+    overflow: hidden;
+}

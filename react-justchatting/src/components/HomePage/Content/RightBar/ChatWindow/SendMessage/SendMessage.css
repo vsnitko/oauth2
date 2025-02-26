@@ -1,0 +1,9 @@
+.send-message {
+    height: 3.5rem;
+    flex-shrink: 0;
+    background-color: white;
+    border-radius: 1rem;
+    align-items: center;
+    display: flex;
+    width: var(--chat-content-width-responsive);
+}

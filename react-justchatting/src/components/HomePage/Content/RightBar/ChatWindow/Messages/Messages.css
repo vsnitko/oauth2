@@ -1,0 +1,47 @@
+.messages-centered {
+    width: var(--chat-content-width-responsive);
+}
+
+.messages {
+    padding-top: 0.25rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+    min-height: min-content;
+}
+
+.message-group {
+    display: flex;
+    gap: 0.25rem;
+    align-items: flex-end;
+}
+
+.text-group {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+}
+
+.message-container {
+    display: flex;
+    gap: 0.5rem;
+    max-width: fit-content;
+}
+
+.avatar-box {
+    display: flex;
+}
+
+.sender-name {
+    cursor: pointer;
+    color: #ED64A6;
+    font-weight: 500;
+}
+
+.message {
+    background-color: white;
+    word-break: break-word;
+    flex-grow: 1;
+    border-radius: 1rem;
+    padding: .3125rem .5rem .375rem;
+}

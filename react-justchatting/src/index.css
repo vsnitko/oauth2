@@ -1,0 +1,21 @@
+:root {
+  font-family: "Inter", "Roboto", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --main-width: 1400px;
+  --main-width-responsive: min(var(--main-width), 100%);
+  --chat-content-width-responsive: min(600px, 100%);
+  --height-of-top-bars: 3.5rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
