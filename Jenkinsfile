@@ -22,7 +22,7 @@ pipeline {
 		}
 		stage('Checkout') {
 			steps {
-				git branch: 'test', url: 'https://github.com/vsnitko/oauth2.git'
+				git branch: 'just-chatting-global', url: 'https://github.com/vsnitko/oauth2.git'
 			}
 		}
 		stage('Build Backend (Spring Boot)') {
@@ -76,7 +76,7 @@ pipeline {
 								def (key, value) = variable.split('=')
 								sh """ssh -o StrictHostKeyChecking=no ${SSH_USER}@${REMOTE_HOST} '
 								if grep -q "^${key}=" /etc/environment; then
-    							    sudo sed -i "s/^${key}=.*/${variable}/" /etc/environment
+    							    sudo sed -i "s|^${key}=.*|${variable}|" /etc/environment
     							else
     							    echo "${variable}" | sudo tee -a /etc/environment
     							fi

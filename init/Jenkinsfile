@@ -1,9 +1,12 @@
 pipeline {
 	agent any
 
+	parameters {
+        string(name: 'REMOTE_HOST', defaultValue: '84.201.153.184', description: 'IP address of remote machine')
+    }
+
 	environment {
 		SSH_USER = 'wo4ko'
-		REMOTE_HOST = '84.201.153.184'
 	}
 
 	stages {
@@ -11,11 +14,11 @@ pipeline {
 			steps {
 				script {
 					sshagent(['ssh']) {
-						def dockerInstalled = sh(script: "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${REMOTE_HOST} 'docker --version'", returnStatus: true) == 0
+						def dockerInstalled = sh(script: "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${params.REMOTE_HOST} 'docker --version'", returnStatus: true) == 0
 						if (!dockerInstalled) {
-							sh """ssh -o StrictHostKeyChecking=no ${SSH_USER}@${REMOTE_HOST} '
+							sh """ssh -o StrictHostKeyChecking=no ${SSH_USER}@${params.REMOTE_HOST} '
 							sudo apt install -y docker.io
-							sudo curl -L "https://github.com/docker/compose/releases/download/v2.33.0/docker-compose-\$(uname -s)-\$(uname -m)" -o /usr/local/bin/docker-compose
+							sudo curl -L "https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-\$(uname -s)-\$(uname -m)" -o /usr/local/bin/docker-compose
 							sudo chmod +x /usr/local/bin/docker-compose
 							sudo usermod -aG docker \$USER
 							sudo mkdir -p /opt/oauth2/
@@ -42,11 +45,11 @@ pipeline {
 								"GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}",
 								"GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}",
 								"EMAIL_PASSWORD=${EMAIL_PASSWORD}",
-								"REMOTE_HOST=${REMOTE_HOST}",
+								"REMOTE_HOST=${params.REMOTE_HOST}",
 							]
 							for (variable in variables) {
 								def (key, value) = variable.split('=')
-								sh """ssh -o StrictHostKeyChecking=no ${SSH_USER}@${REMOTE_HOST} '
+								sh """ssh -o StrictHostKeyChecking=no ${SSH_USER}@${params.REMOTE_HOST} '
 								if grep -q "^${key}=" /etc/environment; then
     							    sudo sed -i "s/^${key}=.*/${variable}/" /etc/environment
     							else

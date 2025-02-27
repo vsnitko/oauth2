@@ -1,0 +1,35 @@
+@use "@/components/global/mixins" as *;
+
+.chat-list {
+    @include flex-column(0.5rem 0.5rem);
+    @include transitionScrollbar;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.chat-element-preview {
+    @include flex(0.5rem 0.5rem);
+    height: 4.5rem;
+    cursor: pointer;
+    border-radius: 1.25rem;
+    gap: 0.5rem;
+}
+
+.chat-element-preview:hover {
+    background-color: var(--search-color);
+}
+
+.chat-avatar {
+    @include circle(var(--avatar-width));
+}
+
+.chat-preview {
+    overflow: hidden;
+}
+
+.chat-info-bottom-line {
+    font-weight: 300;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
