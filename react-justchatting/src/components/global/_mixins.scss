@@ -1,0 +1,26 @@
+@mixin circle($diameter) {
+  width: $diameter;
+  height: $diameter;
+  border-radius: 50%;
+}
+
+@mixin flex($padding:null) {
+  display: flex;
+  align-items: center;
+  padding: $padding;
+}
+
+@mixin flex-column($padding:null) {
+  display: flex;
+  flex-direction: column;
+  padding: $padding;
+}
+
+@mixin transitionScrollbar($color: null) {
+  transition: --scroll-background 0.3s;
+  $scroll-background: if($color == null, var(--secondary-color-gray), $color);
+
+  &:hover {
+    --scroll-background: #{$scroll-background};
+  }
+}

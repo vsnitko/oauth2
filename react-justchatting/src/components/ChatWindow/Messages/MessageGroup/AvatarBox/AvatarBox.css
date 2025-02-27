@@ -1,0 +1,5 @@
+.avatar-box {
+    display: flex;
+    width: var(--avatar-width);
+    flex-shrink: 0;
+}

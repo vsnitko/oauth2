@@ -1,27 +1,16 @@
-import './App.css'
-import {Route, Switch} from "wouter";
-import UserEdit from "./components/UserEdit.tsx";
-import User from "./components/User.tsx";
-import Page404 from "./components/Page404.tsx";
-import HomePage from "./components/HomePage/HomePage.tsx";
+import "./App.css";
 import React from "react";
+import Navbar from "./components/Navbar/Navbar.tsx";
+import Content from "./components/Content/Content.tsx";
 
 function App() {
 
-    return (
-        <>
-            <Switch>
-                <Route path="/" component={HomePage}/>
-                <Route path="/user" nest>
-                    <Route path="/:id">
-                        {params => <User id={params.id}/>}
-                    </Route>
-                    <Route path="/edit" component={UserEdit}/>
-                </Route>
-                <Route component={Page404}/>
-            </Switch>
-        </>
-    )
+  return (
+    <>
+      <Navbar />
+      <Content />
+    </>
+  );
 }
 
-export default App
+export default App;

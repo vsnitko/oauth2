@@ -1,0 +1,11 @@
+.message-group {
+    display: flex;
+    gap: 0.25rem;
+    align-items: flex-end;
+}
+
+.text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}

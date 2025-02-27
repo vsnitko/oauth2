@@ -1,0 +1,24 @@
+@use "@/components/global/mixins" as *;
+
+.chat-info {
+    @include flex(0 2rem);
+    flex-shrink: 0;
+    height: var(--height-of-top-bars);
+    border-left: 1px solid var(--navbar-color);
+    gap: 0.5rem;
+}
+
+.chat-info-avatar {
+    @include circle(var(--chat-info-avatar-width));
+}
+
+.chat-title {
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+}
+
+.members-number {
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    color: var(--members-number-text-color);
+}
