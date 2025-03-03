@@ -1,7 +1,8 @@
 import "./App.css";
 import React from "react";
-import Navbar from "./components/Navbar/Navbar.tsx";
 import Content from "./components/Content/Content.tsx";
+import Navbar from "./components/Navbar/Navbar.tsx";
+
 
 function App() {
 

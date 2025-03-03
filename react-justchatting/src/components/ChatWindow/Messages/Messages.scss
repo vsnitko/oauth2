@@ -1,4 +1,4 @@
-@use "@/components/global/mixins" as *;
+@use "@/global/mixins" as *;
 
 .messages {
   @include flex-column(0.25rem 0 0 0);

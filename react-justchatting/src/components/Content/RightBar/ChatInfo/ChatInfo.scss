@@ -1,4 +1,4 @@
-@use "@/components/global/mixins" as *;
+@use "@/global/mixins" as *;
 
 .chat-info {
     @include flex(0 2rem);

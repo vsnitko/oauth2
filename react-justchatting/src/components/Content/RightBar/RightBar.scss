@@ -1,4 +1,4 @@
-@use "@/components/global/mixins" as *;
+@use "@/global/mixins" as *;
 
 .right-bar {
     @include flex-column;
