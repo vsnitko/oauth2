@@ -36,7 +36,7 @@ pipeline {
 		}
 		stage('Build Frontend (React)') {
 			steps {
-				dir('react-oauth2') {
+				dir('react-justchatting') {
 					script {
 						sh 'npm install'
 						sh 'CI=false npm run build'
@@ -87,7 +87,7 @@ pipeline {
 							source /etc/environment
 							echo ${DOCKER_CREDS_PSW} | docker login --username ${DOCKER_CREDS_USR} --password-stdin
 							cd /opt/oauth2
-							mkdir -p spring-oauth2 react-oauth2
+							mkdir -p spring-oauth2 react-justchatting
 							docker-compose pull
 							docker-compose up -d --no-build
 							'"""

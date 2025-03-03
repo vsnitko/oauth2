@@ -1,6 +1,6 @@
 import React from "react";
 import "./AvatarBox.css";
-import { MessageType } from "../../types.ts";
+import { MessageType } from "../../types";
 
 const AvatarBox = (
   {
