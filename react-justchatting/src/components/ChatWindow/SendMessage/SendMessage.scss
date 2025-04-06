@@ -1,11 +1,11 @@
 @use "@/global/mixins" as *;
 
-.send-message {
+.send-message-input-box {
     @include flex;
     flex-shrink: 0;
     height: 3.5rem;
     border-radius: 1rem;
-    background-color: var(--message-background);
+    background-color: var(--background-color);
 }
 
 .send-message-padding {

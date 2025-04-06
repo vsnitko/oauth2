@@ -3,9 +3,8 @@ import "./SendMessage.scss";
 
 const SendMessage = () => (
   <div className="send-message-padding">
-    <div className="send-message input-box">
+    <div className="send-message-input-box input-box">
       <input
-        className="input"
         type="text"
         placeholder="Message"
       />

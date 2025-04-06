@@ -2,5 +2,6 @@
 
 .right-bar {
     @include flex-column;
+    @include media-hide;
     flex-grow: 1;
 }

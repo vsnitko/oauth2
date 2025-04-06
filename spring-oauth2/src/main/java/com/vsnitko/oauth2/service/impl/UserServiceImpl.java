@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Service which performs CRUD operations with application users. Saves user with the help of Spring Security handlers
  * (using basic auth or OAuth2)
@@ -33,6 +35,11 @@ public class UserServiceImpl implements UserService, UserDetailsService, OAuth2A
     @Override
     public User getById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override

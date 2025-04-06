@@ -2,6 +2,7 @@
   width: $diameter;
   height: $diameter;
   border-radius: 50%;
+
 }
 
 @mixin flex($padding:null) {
@@ -14,6 +15,13 @@
   display: flex;
   flex-direction: column;
   padding: $padding;
+}
+
+@mixin media-hide() {
+  @media (max-width: 800px) {
+    display: none;
+    @content;
+  }
 }
 
 @mixin transitionScrollbar($color: null) {

@@ -15,19 +15,31 @@
     gap: 0.5rem;
 }
 
-.secondary {
-    background-color: var(--background-color);
-    border: 1px solid var(--search-color);
-}
-
 .button:hover {
     background-color: var(--primary-color-hover);
 }
 
-.secondary:hover {
+.secondary-button {
     background-color: var(--search-color);
+    color: var(--search-text-color);
+}
+
+.secondary-button:hover {
+    background-color: var(--search-hover-color);
+}
+
+.secondary-button:active {
+    background-color: var(--button-press-color);
+}
+
+.navbar-button {
+    background-color: var(--navbar-color);
+}
+
+.navbar-button:hover {
+    background-color: var(--background-color);
 }
 
 .button:active {
-    background-color: var(--secondary-color);
+    background-color: var(--button-press-color);
 }

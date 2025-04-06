@@ -1,13 +1,13 @@
 export type MessageType = {
   senderId: string;
   senderName: string;
-  avatarLink: string | undefined;
+  avatar: string | undefined;
   messageText: string;
   mine: boolean;
 };
 
 export type MessageGroupType = {
   mine: MessageType["mine"];
-  avatarLink: MessageType["avatarLink"];
+  avatar: MessageType["avatar"];
   messageGroup: Array<MessageType>;
 };

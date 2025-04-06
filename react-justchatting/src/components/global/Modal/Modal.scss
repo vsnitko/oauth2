@@ -1,0 +1,77 @@
+@use "@/global/mixins" as *;
+
+.modal-overlay {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  display: flex;
+  visibility: hidden;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease, visibility 0.3s;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-overlay.opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  min-width: 25rem;
+  max-width: 32rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 1rem;
+  background: var(--background-color);
+}
+
+.modal-inner {
+  @include flex-column;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.modal-header {
+  @include flex;
+  justify-content: flex-end;
+}
+
+.modal-header.not-first-page {
+  justify-content: space-between;
+}
+
+.modal-content {
+  @include flex(1rem 0 0 0);
+  align-items: flex-start;
+  flex-grow: 1;
+  box-sizing: content-box;
+  transition: transform 0.2s ease, height 0.2s ease;
+}
+
+.modal-page {
+  @include flex-column;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 50%;
+  transition: visibility 0.1s;
+  gap: 1rem;
+}
+
+.modal-button {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.back {
+  display: none;
+}
+
+.back.opened {
+  display: block;
+}

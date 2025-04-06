@@ -7,12 +7,19 @@
     flex-grow: 1;
 }
 
+a {
+    outline: none;
+    color: inherit;
+    text-decoration: none;
+}
+
 .chat-element-preview {
     @include flex(0.5rem 0.5rem);
     height: 4.5rem;
     cursor: pointer;
     border-radius: 1.25rem;
     gap: 0.5rem;
+    transition: background-color 0.1s;
 }
 
 .chat-element-preview:hover {
@@ -21,6 +28,10 @@
 
 .chat-avatar {
     @include circle(var(--avatar-width));
+    object-fit: cover;
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering: -webkit-optimize-contrast; /* Chrome/Safari */
+    image-rendering: crisp-edges;
 }
 
 .chat-preview {
