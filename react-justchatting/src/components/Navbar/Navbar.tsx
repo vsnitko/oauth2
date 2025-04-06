@@ -1,47 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Button from "../global/Button.tsx";
+import React from "react";
 import "./Navbar.scss";
+import SignIn from "./SignIn/SignIn.tsx";
+import {useUserStore} from "../store/userStore.ts";
+import UserAvatar from "./UserAvatar/UserAvatar.tsx";
+import DarkModeSwitcher from "./DarkModeSwitcher/DarkModeSwitcher.tsx";
 
 const Navbar = () => {
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const setDarkMode = () => {
-    localStorage.setItem("data-theme", "dark");
-    document.documentElement.setAttribute("data-theme", "dark");
-    setIsDarkMode(true);
-  };
-
-  const setLightMode = () => {
-    localStorage.setItem("data-theme", "light");
-    document.documentElement.setAttribute("data-theme", "light");
-    setIsDarkMode(false);
-  };
-
-  useEffect(() => {
-    let darkMode;
-    const dataTheme = localStorage.getItem("data-theme");
-    if (dataTheme === null) {
-      darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    } else {
-      darkMode = dataTheme === "dark";
-    }
-    if (darkMode) {
-      setDarkMode();
-    } else {
-      setLightMode();
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const attribute = document.documentElement.getAttribute("data-theme");
-    if (attribute === "dark") {
-      setLightMode();
-    } else {
-      setDarkMode();
-    }
-
-  };
+  const {user, setUser} = useUserStore();
 
   return (
     <div className="navbar">
@@ -52,23 +18,14 @@ const Navbar = () => {
           alt="logo"
         />
         <div className="navbar-right">
-          <Button
-            className="secondary"
-            onClick={toggleTheme}
-          >
-            {isDarkMode
-              ? <img
-                src="/light.svg"
-                alt="light"
-              />
-              : <img
-                src="/dark.svg"
-                alt="dark"
-              />}
-          </Button>
-          <Button>
-            Sign In
-          </Button>
+          <DarkModeSwitcher />
+          {user
+            ? <UserAvatar
+              user={user}
+              setUser={setUser}
+            />
+            : <SignIn />
+          }
         </div>
       </div>
     </div>

@@ -110,7 +110,7 @@ class MailServiceImplTest {
 
     @Test
     void verifyEmailSuccess() {
-        final String token = "token";
+        final String token = "accessToken";
         final User user = new User();
         final VerificationToken value = new VerificationToken()
             .setExpiryDate(new Date(Long.MAX_VALUE))
@@ -127,7 +127,7 @@ class MailServiceImplTest {
 
     @Test
     void verifyEmailFailed_whenTokenIsEmpty() {
-        final String token = "token";
+        final String token = "accessToken";
 
         when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
 
@@ -139,7 +139,7 @@ class MailServiceImplTest {
 
     @Test
     void verifyEmailFailed_whenTokenExpired() {
-        final String token = "token";
+        final String token = "accessToken";
         final VerificationToken value = new VerificationToken()
             .setExpiryDate(new Date(0));
 

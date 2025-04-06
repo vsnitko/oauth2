@@ -7,7 +7,7 @@ import AvatarBox from "./AvatarBox/AvatarBox.tsx";
 const MessageGroup: React.FC<MessageGroupType> = (
   {
     mine,
-    avatarLink,
+    avatar,
     messageGroup
   }
 ) => (
@@ -17,7 +17,7 @@ const MessageGroup: React.FC<MessageGroupType> = (
   >
     <AvatarBox
       mine={mine}
-      avatarLink={avatarLink}
+      avatar={avatar}
     />
     <div
       className="text-group"

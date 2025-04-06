@@ -9,7 +9,7 @@ public class Constants {
     public static final String BASIC_AUTH_PATH = "auth";
     public static final String VERIFY_EMAIL_PATH = "verify-email";
     public static final String VERIFICATION_REDIRECT_PATH = "verification";
-    public static final String VERIFICATION_TOKEN_QUERY_PARAM = "token";
+    public static final String VERIFICATION_TOKEN_QUERY_PARAM = "accessToken";
     public static final String TOKEN_VERIFIED_QUERY_PARAM = "verified";
     public static final String CHECK_ACCESS_PATH = "check-access";
     public static final String PUBLIC_ACCESS_PATH = "public";

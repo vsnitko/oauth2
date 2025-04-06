@@ -1,44 +1,44 @@
-import React, { useState } from "react";
+import React, {useEffect} from "react";
 import "./ChatList.scss";
-
-type ChatElement = {
-  avatarLink: string | undefined;
-  roomName: string;
-  message: string | undefined;
-}
+import {Link} from "wouter";
+import api from "../../../../axios-spring.ts";
+import {ChatElement, useChatStore} from "../../../store/chatStore.ts";
 
 const ChatList = () => {
-
-  const [chatList, setChatList] = useState<Array<ChatElement>>(new Array(15).fill(
-    {
-      avatarLink: "/shelly.jpg",
-      roomName: "Shelly",
-      message: "Головы сияют на моей едкой катане"
-    }
-  ));
   
+  const { chatList, setChatList } = useChatStore();
+
+  useEffect(() => {
+    api
+      .get<Array<ChatElement>>("/chats")
+      .then((response) => {
+        setChatList(response.data);
+      });
+  }, []);
+
   return (
     <div className="chat-list">
       {
         chatList.map((chat: ChatElement, index) =>
-          <div
+          <Link
+            to={"/" + chat.id}
             className="chat-element-preview"
             key={index}
           >
             <img
               className="chat-avatar"
-              src={chat.avatarLink}
+              src={import.meta.env.VITE_FILE_PATH + chat.avatar}
               alt="chat-avatar"
             />
             <div className="chat-preview">
               <div className="chat-info-top-line">
-                {chat.roomName}
+                {chat.name}
               </div>
               <div className="chat-info-bottom-line">
-                {chat.message}
+                {chat.lastMessage}
               </div>
             </div>
-          </div>
+          </Link>
         )
       }
     </div>

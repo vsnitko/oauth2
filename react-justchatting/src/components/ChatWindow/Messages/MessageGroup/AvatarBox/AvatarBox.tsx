@@ -5,14 +5,14 @@ import { MessageType } from "../../types";
 const AvatarBox = (
   {
     mine,
-    avatarLink
-  }: Pick<MessageType, "mine" | "avatarLink">
+    avatar
+  }: Pick<MessageType, "mine" | "avatar">
 ) => (
   <div className="avatar-box">
     {!mine &&
      <img
        className="chat-avatar"
-       src={avatarLink}
+       src={avatar}
        alt="avatar"
      />
     }

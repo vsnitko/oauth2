@@ -2,11 +2,13 @@ server:
   servlet:
     context-path: /api
 app:
-  client-path: http://localhost:3000
+  client-path: http://localhost:5173
   server-path: http://localhost:8080/api
   client-oauth2-redirect-endpoint: /oauth2/redirect
+  file-path: ./react-justchatting/public/uploads/
   jwt:
-    expirationMinutes: 999999
+    accessTokenExpirationMinutes: 15
+    refreshTokenExpirationDays: 365
     secretKey: secret
 logging:
   level:
@@ -48,3 +50,7 @@ spring:
     protocol: smtps
     username: vitalisnitko@yandex.by
     password: ${EMAIL_PASSWORD:X}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB

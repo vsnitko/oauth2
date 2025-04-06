@@ -5,8 +5,9 @@
     overflow-y: hidden;
     align-items: center;
     flex-grow: 1;
-    background-color: var(--primary-background);
+    background-color: var(--chat-background);
     gap: 0.25rem;
+    justify-content: flex-end
 }
 
 .messages-window {
