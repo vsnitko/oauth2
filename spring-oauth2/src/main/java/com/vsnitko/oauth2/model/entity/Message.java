@@ -26,8 +26,16 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User sender;
 
-    @Column(nullable = false)
-    private String content;
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
     
+    @Column(nullable = false, length = 5000)
+    private String content;
+
+    @Column(
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     private LocalDateTime sentAt;
 }

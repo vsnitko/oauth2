@@ -1,5 +1,5 @@
 export type MessageType = {
-  senderId: string;
+  senderId: number;
   senderName: string;
   avatar: string | undefined;
   messageText: string;

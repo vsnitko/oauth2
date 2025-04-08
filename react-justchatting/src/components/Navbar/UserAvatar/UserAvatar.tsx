@@ -15,7 +15,6 @@ const UserAvatar: React.FC<UserStore> = ({user, setUser}) => {
       })
   }
 
-
   return (
     <Popup
       trigger={

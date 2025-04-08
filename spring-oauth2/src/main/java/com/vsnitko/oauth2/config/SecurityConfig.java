@@ -39,7 +39,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
         return http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -65,7 +64,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(appProperties.getClientPath()));
+        configuration.addAllowedOrigin(appProperties.getClientPath());
         configuration.setAllowCredentials(true);
         configuration.setAllowedMethods(List.of("*"));
         configuration.addAllowedHeader("*");

@@ -8,11 +8,11 @@ export type User = {
 }
 
 export interface UserStore {
-  user: User | null;
+  user: User | null | undefined;
   setUser: (user: User | null) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
-  user: null,
+  user: undefined,
   setUser: (user) => set({ user: user }),
 }));
