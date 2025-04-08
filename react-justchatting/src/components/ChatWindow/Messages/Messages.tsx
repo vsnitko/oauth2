@@ -7,12 +7,11 @@ const Messages = ({messages}:{messages: Array<MessageType>}) => {
 
   const [messageGroups, setMessageGroups] = useState<Array<Array<MessageType>>>([[]]);
 
+  //groups messages by sender
   useEffect(() => {
     const tempMessageGroups: Array<Array<MessageType>> = [[]];
     let j = 0;
-    if (messages === undefined) {
-      return;
-    }
+
     for (const message of messages) {
       const lastMessage = tempMessageGroups[j].at(-1);
       const firstMessageFromSender = lastMessage?.senderId === message.senderId;
@@ -23,6 +22,7 @@ const Messages = ({messages}:{messages: Array<MessageType>}) => {
         j++;
       }
     }
+    
     setMessageGroups(tempMessageGroups);
   }, [messages]);
 
