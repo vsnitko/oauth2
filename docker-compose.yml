@@ -40,7 +40,7 @@ services:
   frontend:
     container_name: frontend
     image: ${FRONTEND_IMAGE}
-    build: ./react-oauth2
+    build: ./react-justchatting
     ports:
       - "80:80"
     depends_on:
