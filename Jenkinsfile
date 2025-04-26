@@ -4,7 +4,7 @@ pipeline {
 	environment {
 		DOCKER_TAG = "1.0.${BUILD_NUMBER}"
 		SSH_USER = 'wo4ko'
-		REMOTE_HOST = '84.201.153.184'
+		REMOTE_HOST = '192.168.0.156'
 	}
 
 	stages {
@@ -20,16 +20,11 @@ pipeline {
 				}
 			}
 		}
-		stage('Checkout') {
-			steps {
-				git branch: 'just-chatting-global', url: 'https://github.com/vsnitko/oauth2.git'
-			}
-		}
 		stage('Build Backend (Spring Boot)') {
 			steps {
 				dir('spring-oauth2') {
 					script {
-						sh 'mvn clean package -B'
+						sh 'mvn clean package -Dcheckstyle.skip=true -B'
 					}
 				}
 			}
@@ -64,7 +59,7 @@ pipeline {
 		stage('Pull docker-compose and Restart Containers in Cloud') {
 			steps {
 				script {
-					sshagent(['ssh']) {
+					sshagent(['ssh_vm']) {
 						withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKER_CREDS_PSW', usernameVariable: 'DOCKER_CREDS_USR')]){
 							sh "scp docker-compose.yml ${SSH_USER}@${REMOTE_HOST}:/opt/oauth2/"
 

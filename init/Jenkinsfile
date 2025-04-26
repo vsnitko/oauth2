@@ -2,7 +2,7 @@ pipeline {
 	agent any
 
 	parameters {
-        string(name: 'REMOTE_HOST', defaultValue: '84.201.153.184', description: 'IP address of remote machine')
+        string(name: 'REMOTE_HOST', defaultValue: '127.0.0.1', description: 'IP address of remote machine')
     }
 
 	environment {
@@ -13,10 +13,12 @@ pipeline {
 		stage('Install Docker and docker-compose on Ubuntu') {
 			steps {
 				script {
-					sshagent(['ssh']) {
+					sshagent(['ssh_vm']) {
 						def dockerInstalled = sh(script: "ssh -o StrictHostKeyChecking=no ${SSH_USER}@${params.REMOTE_HOST} 'docker --version'", returnStatus: true) == 0
 						if (!dockerInstalled) {
 							sh """ssh -o StrictHostKeyChecking=no ${SSH_USER}@${params.REMOTE_HOST} '
+							sudo apt update
+							sudo apt install curl -y
 							sudo apt install -y docker.io
 							sudo curl -L "https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-\$(uname -s)-\$(uname -m)" -o /usr/local/bin/docker-compose
 							sudo chmod +x /usr/local/bin/docker-compose
@@ -32,7 +34,7 @@ pipeline {
 		stage('Set env variables on remote server') {
 			steps {
 				script {
-					sshagent(['ssh']) {
+					sshagent(['ssh_vm']) {
 						withCredentials([
 							usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKER_CREDS_PSW', usernameVariable: 'DOCKER_USERNAME'),
 							usernamePassword(credentialsId: 'google-oauth2', passwordVariable: 'GOOGLE_CLIENT_SECRET', usernameVariable: 'GOOGLE_CLIENT_ID'),

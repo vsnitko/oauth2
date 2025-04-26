@@ -59,7 +59,7 @@ pipeline {
 			steps {
 			    dir('react-justchatting') {
 			    	script {
-			    		sshagent(['ssh']) {
+			    		sshagent(['ssh_vm']) {
 			    			withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKER_CREDS_PSW', usernameVariable: 'DOCKER_CREDS_USR')]){
 			    				sh "scp docker-compose.yml ${SSH_USER}@${REMOTE_HOST}:/opt/oauth2/"
 
