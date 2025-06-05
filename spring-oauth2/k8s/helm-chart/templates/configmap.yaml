@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configName }}
+data:
+  REMOTE_HOST: "{{ .Values.appHost }}"
+  DB_SERVICE_NAME: "{{ .Values.db.serviceName }}"
+  INITIAL_DB: "{{ .Values.db.initialDb }}"

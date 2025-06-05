@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.jenkins.serviceName }}
+spec:
+  selector:
+    app: {{ .Values.jenkins.label }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.jenkins.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.jenkins.label }}
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: jenkins-container
+          image: jenkins/jenkins:jdk21
+          env:
+            - name: JAVA_OPTS
+              value: -Djenkins.install.runSetupWizard=false
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: {{ .Values.jenkins.volumeName }}
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: {{ .Values.jenkins.volumeName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.jenkins.claimName }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.jenkins.claimName }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

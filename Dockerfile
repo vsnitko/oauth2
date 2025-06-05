@@ -2,23 +2,27 @@ FROM jenkins/jenkins:jdk21
 
 USER root
 
-#RUN chmod 660 /var/run/docker.sock && chown root:docker /var/run/docker.sock
+# Installing Maven
+RUN apt-get update && apt-get install -y maven
 
-RUN \
-	apt-get update \
-	&& apt-get install -y maven curl \
-	&& curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-	&& apt-get install -y nodejs \
-	&& npm install -g npm@latest \
-	&& apt install -y apt-transport-https ca-certificates software-properties-common \
-    && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
-    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb\_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
-    && apt update \
-    && apt-cache policy docker-ce \
-    && apt install -y docker-ce \
-	&& curl -L "https://github.com/docker/compose/releases/download/v2.33.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
-	&& chmod +x /usr/local/bin/docker-compose
-RUN usermod -aG docker jenkins
+# Installing Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs
+
+# Installing Docker
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io && \
+    usermod -aG docker jenkins
+
+# Installing kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Installing helm
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+    chmod 700 get_helm.sh && \
+    ./get_helm.sh
 
 USER jenkins
 

@@ -2,8 +2,8 @@ server:
   servlet:
     context-path: /api
 app:
-  client-path: http://localhost:5173
-  server-path: http://localhost:8080/api
+  client-path: http://${REMOTE_HOST:localhost:5173}
+  server-path: http://${REMOTE_HOST:localhost:8080}/api
   client-oauth2-redirect-endpoint: /oauth2/redirect
   file-path: ./react-justchatting/public/uploads/
   jwt:
@@ -16,9 +16,9 @@ logging:
 
 spring:
   datasource:
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/oauth2_db
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    url: jdbc:mysql://${DB_SERVICE_NAME:localhost}:3306/${INITIAL_DB:oauth2_db}
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
@@ -48,7 +48,7 @@ spring:
     host: smtp.yandex.ru
     port: 465
     protocol: smtps
-    username: vitalisnitko@yandex.by
+    username: ${EMAIL_USERNAME:X}
     password: ${EMAIL_PASSWORD:X}
   servlet:
     multipart:

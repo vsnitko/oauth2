@@ -1,7 +1,0 @@
-app:
-  client-path: http://localhost
-  server-path: http://localhost:8080/api
-  file-path: /var/uploads/
-spring:
-  datasource:
-    url: jdbc:mysql://mysql:3306/oauth2_db
