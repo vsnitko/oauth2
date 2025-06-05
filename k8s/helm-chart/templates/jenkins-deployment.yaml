@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.jenkins.serviceName }}
+spec:
+  selector:
+    app: {{ .Values.jenkins.label }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ .Values.jenkins.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.jenkins.label }}
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: jenkins-container
+          image: vitalisnitko/jenkins:1
+          imagePullPolicy: Always # REMOVE
+          env:
+            - name: JAVA_OPTS
+              value: >-
+                -Djenkins.install.runSetupWizard=false
+                -Djenkins.model.Jenkins.crumbIssuerProxyCompatibility=true
+            {{- range .Values.jenkins.secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: {{ .name }}
+            {{- end }}
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "1Gi"
+          volumeMounts:
+            - name: {{ .Values.jenkins.volumeName }}
+              mountPath: /var/jenkins_home
+            - name: {{ .Values.jenkins.volumeNameSock }}
+              mountPath: /var/run/docker.sock
+            - name: {{ .Values.jenkins.volumeNameKubeConfig}}
+              mountPath: /var/jenkins_home/.kube
+              readOnly: true
+      volumes:
+        - name: {{ .Values.jenkins.volumeName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.jenkins.claimName }}
+        - name: {{ .Values.jenkins.volumeNameSock }}
+          hostPath:
+            path: /var/run/docker.sock
+        - name: {{ .Values.jenkins.volumeNameKubeConfig}}
+          secret:
+            secretName: jenkins-secret
+            items:
+              - key: KUBE_CONFIG
+                path: config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.jenkins.claimName }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

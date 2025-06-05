@@ -26,12 +26,18 @@ spec:
     spec:
       containers:
         - name: spring-boot-container
-          image: vitalisnitko/spring:latest
+          image: "vitalisnitko/spring:{{ .Values.backend.imageTag }}"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
           envFrom:
             - configMapRef:
                 name: {{ .Values.configName }}
           env:
-            {{- range .Values.secrets }}
+            {{- range .Values.backend.secrets }}
             - name: {{ .name }}
               valueFrom:
                 secretKeyRef:
@@ -40,3 +46,6 @@ spec:
             {{- end }}
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "0.5Gi"

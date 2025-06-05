@@ -36,6 +36,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ChatMapper chatMapper;
     private final AppProperties appProperties;
+    private final S3Service s3Service;
 
     public List<ChatInfoResponse> getChatList() {
         return chatRepository.findAll().stream()
@@ -75,21 +76,13 @@ public class ChatService {
             if (avatar != null) {
                 avatarFileName = UUID.randomUUID() + avatar.getOriginalFilename();
 
-                Path fileDirectory = Paths.get(appProperties.getFilePath()).toAbsolutePath().normalize();
-                Files.createDirectories(fileDirectory);
-
-                Path targetFilePath = fileDirectory.resolve(avatarFileName);
-
                 final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 Thumbnails.of(avatar.getInputStream())
                         .crop(Positions.CENTER)
                         .size(162, 162)
                         .toOutputStream(outputStream);
+                s3Service.uploadFile(avatarFileName, outputStream.toByteArray());
 
-                Files.copy(avatar.getInputStream(), targetFilePath);
-                try (FileOutputStream fos = new FileOutputStream(targetFilePath.toFile())) {
-                    fos.write(outputStream.toByteArray());
-                }
             } else {
                 avatarFileName = null;
             }

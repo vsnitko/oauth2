@@ -5,7 +5,7 @@ app:
   client-path: http://${REMOTE_HOST:localhost:5173}
   server-path: http://${REMOTE_HOST:localhost:8080}/api
   client-oauth2-redirect-endpoint: /oauth2/redirect
-  file-path: ./react-justchatting/public/uploads/
+  secret: ${GOOGLE_CLIENT_SECRET:X}
   jwt:
     accessTokenExpirationMinutes: 15
     refreshTokenExpirationDays: 365
@@ -13,6 +13,14 @@ app:
 logging:
   level:
     com.vsnitko.oauth2.filter.LoggingFilter: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.web: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security.web.authentication: TRACE
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.security.oauth2.client: TRACE
+    org.springframework.security.oauth2.core: TRACE
 
 spring:
   datasource:
@@ -54,3 +62,9 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+s3:
+  endpoint: http://localhost:9444/s3
+  bucket: justchatting-bucket
+  access-key: AKIAIOSFODNN7EXAMPLE
+  secret-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+

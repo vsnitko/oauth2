@@ -17,7 +17,7 @@ const ChatInfo: React.FC<{ chatId: number }> = ({chatId}) => {
     <div className="chat-info">
       <img
         className="chat-info-avatar"
-        src={import.meta.env.VITE_FILE_PATH + selectedChat?.avatar}
+        src={import.meta.env.VITE_API_URL + "/media/photo/" + selectedChat?.avatar}
         alt="chat-avatar"
       />
       <div className="chat-preview">

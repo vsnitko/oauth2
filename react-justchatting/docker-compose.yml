@@ -1,9 +1,0 @@
-version: "3.9"
-
-services:
-  vite:
-    container_name: vite
-    image: ${VITE_IMAGE}
-    build: .
-    ports:
-      - "80:80"

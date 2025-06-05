@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
+        <version>3.5.4</version>
         <relativePath/>
     </parent>
     <groupId>com.vsnitko</groupId>
@@ -107,6 +107,12 @@
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>0.4.20</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>2.32.20</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.github.hakky54</groupId>

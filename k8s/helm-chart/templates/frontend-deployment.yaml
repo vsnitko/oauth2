@@ -27,9 +27,6 @@ spec:
     spec:
       containers:
         - name: react-container
-          image: vitalisnitko/react:latest
-          env:
-            - name: VITE_API_URL
-              value: http://justchatting.online/api
+          image: "vitalisnitko/react:{{ .Values.frontend.imageTag }}"
           ports:
             - containerPort: 80

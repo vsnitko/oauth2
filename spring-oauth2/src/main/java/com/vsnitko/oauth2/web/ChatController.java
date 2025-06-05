@@ -1,5 +1,6 @@
 package com.vsnitko.oauth2.web;
 
+import com.vsnitko.oauth2.config.AppProperties;
 import com.vsnitko.oauth2.model.payload.ChatInfoResponse;
 import com.vsnitko.oauth2.model.payload.MessageResponse;
 import com.vsnitko.oauth2.service.ChatService;
@@ -27,6 +28,18 @@ import java.util.UUID;
 public class ChatController {
 
     private final ChatService chatService;
+    private final AppProperties appProperties;
+
+    @GetMapping("/health")
+    public String getChatInfo() {
+        return String.format("%s %s %s %s %s",
+                appProperties.getServerPath(),
+                appProperties.getClientPath(),
+                appProperties.getSecret(),
+                appProperties.getClientOauth2RedirectEndpoint(),
+                appProperties.getFilePath()
+        );
+    }
 
     @GetMapping("/chat/{id}/info")
     public ChatInfoResponse getChatInfo(@PathVariable Long id) {

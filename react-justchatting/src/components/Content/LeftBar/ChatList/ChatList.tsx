@@ -27,7 +27,7 @@ const ChatList = () => {
           >
             <img
               className="chat-avatar"
-              src={import.meta.env.VITE_FILE_PATH + chat.avatar}
+              src={import.meta.env.VITE_API_URL + "/media/photo/" + chat.avatar}
               alt="chat-avatar"
             />
             <div className="chat-preview">

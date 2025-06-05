@@ -13,7 +13,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io && \
-    usermod -aG docker jenkins
+    usermod -aG root jenkins && \
+    usermod -aG systemd-network jenkins
+# "usermod -aG root jenkins" and "usermod -aG systemd-network jenkins" are not secure, but I leave it here for automation
+# better to use "chown root:docker /var/run/docker.sock" after container startup
+#
+# "usermod -aG systemd-network jenkins" is yandex cloud option
 
 # Installing kubectl
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
@@ -24,5 +29,8 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/s
     chmod 700 get_helm.sh && \
     ./get_helm.sh
 
-USER jenkins
+#Installing Yandex CLI. It's required to connect to cluster
+RUN curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yc -n && \
+    mv /opt/yc/bin/yc /usr/local/bin/yc
 
+USER jenkins

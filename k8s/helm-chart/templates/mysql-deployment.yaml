@@ -17,6 +17,8 @@ metadata:
   name: mysql-deployment
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Values.db.label }}
@@ -35,6 +37,9 @@ spec:
               value: {{ .Values.db.initialDb }}
           ports:
             - containerPort: 3306
+          resources:
+            requests:
+              memory: "0.75Gi"
           volumeMounts:
             - name: {{ .Values.db.volumeName }}
               mountPath: /var/lib/mysql
