@@ -16,35 +16,38 @@ services:
       interval: 3s
       timeout: 20s
       retries: 20
+      
+  s3:
+    image: scireum/s3-ninja
+    container_name: s3
+    ports:
+      - "9444:9000"
+    volumes:
+      - /home/sirius/data:/root/.s3ninja
 
   backend:
     container_name: backend
-    image: ${BACKEND_IMAGE}
-    build:
-      context: ./spring-oauth2
-      dockerfile: ${DOCKERFILE:-Dockerfile-local}
+    build: ./spring-oauth2
     ports:
       - "8080:8080"
-      - "8090:8090"
     depends_on:
       mysql:
         condition: service_healthy
     environment:
+      - DB_SERVICE_NAME=mysql
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-      - REMOTE_HOST=${REMOTE_HOST}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
 
   frontend:
     container_name: frontend
-    image: ${FRONTEND_IMAGE}
-    build: ./react-oauth2
+    build:
+      context: ./react-justchatting
     ports:
       - "80:80"
-    depends_on:
-      - backend
 
 volumes:
   db_data:

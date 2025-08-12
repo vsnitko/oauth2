@@ -1,0 +1,45 @@
+@use "@/global/mixins" as *;
+
+.button {
+    @include flex(0 1rem);
+    font-family: inherit;
+    font-size: 1rem;
+    height: 2.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    background-color: var(--primary-color);
+    gap: 0.5rem;
+}
+
+.button:hover {
+    background-color: var(--primary-color-hover);
+}
+
+.secondary-button {
+    background-color: var(--search-color);
+    color: var(--search-text-color);
+}
+
+.secondary-button:hover {
+    background-color: var(--search-hover-color);
+}
+
+.secondary-button:active {
+    background-color: var(--button-press-color);
+}
+
+.navbar-button {
+    background-color: var(--navbar-color);
+}
+
+.navbar-button:hover {
+    background-color: var(--background-color);
+}
+
+.button:active {
+    background-color: var(--button-press-color);
+}

@@ -1,0 +1,29 @@
+@use "@/global/mixins" as *;
+
+.left-bar {
+    @include flex-column(0 0.25rem 0 0);
+    position: relative;
+    flex-shrink: 0;
+    width: 30rem;
+    min-width: max(20rem, 25%);
+    max-width: min(40rem, 40%);
+}
+
+@media (max-width: 800px) {
+    .left-bar {
+        flex-grow: 1;
+        max-width: unset;
+        width: unset !important;
+    }
+}
+
+.resizer {
+    position: absolute;
+    right: calc(var(--width) / -2);
+    width: var(--width);
+    height: 100%;
+    cursor: ew-resize;
+    --width: 0.25rem;
+}
+
+

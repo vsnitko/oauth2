@@ -2,21 +2,31 @@ server:
   servlet:
     context-path: /api
 app:
-  client-path: http://localhost:3000
-  server-path: http://localhost:8080/api
+  client-path: http://${REMOTE_HOST:localhost:5173}
+  server-path: http://${REMOTE_HOST:localhost:8080}/api
   client-oauth2-redirect-endpoint: /oauth2/redirect
+  secret: ${GOOGLE_CLIENT_SECRET:X}
   jwt:
-    expirationMinutes: 999999
+    accessTokenExpirationMinutes: 15
+    refreshTokenExpirationDays: 365
     secretKey: secret
 logging:
   level:
     com.vsnitko.oauth2.filter.LoggingFilter: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.web: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security.web.authentication: TRACE
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.security.oauth2.client: TRACE
+    org.springframework.security.oauth2.core: TRACE
 
 spring:
   datasource:
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/oauth2_db
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    url: jdbc:mysql://${DB_SERVICE_NAME:localhost}:3306/${INITIAL_DB:oauth2_db}
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
@@ -46,5 +56,15 @@ spring:
     host: smtp.yandex.ru
     port: 465
     protocol: smtps
-    username: vitalisnitko@yandex.by
+    username: ${EMAIL_USERNAME:X}
     password: ${EMAIL_PASSWORD:X}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+s3:
+  endpoint: http://localhost:9444/s3
+  bucket: justchatting-bucket
+  access-key: AKIAIOSFODNN7EXAMPLE
+  secret-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+

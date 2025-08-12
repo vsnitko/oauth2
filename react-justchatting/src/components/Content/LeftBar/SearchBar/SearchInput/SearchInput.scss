@@ -1,0 +1,6 @@
+@use "@/global/mixins" as *;
+
+.search-input-box {
+    flex-grow: 1;
+    background-color: var(--search-color);
+}

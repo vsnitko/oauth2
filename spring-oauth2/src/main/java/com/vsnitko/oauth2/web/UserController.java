@@ -9,12 +9,10 @@ import com.vsnitko.oauth2.model.payload.EditRequest;
 import com.vsnitko.oauth2.model.payload.UserResponse;
 import com.vsnitko.oauth2.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author v.snitko
@@ -27,10 +25,23 @@ public class UserController {
 
     private final UserServiceImpl userService;
     private final ObjectMapper objectMapper;
-
+    
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> signIn(@RequestParam String email) {
+        return ResponseEntity.ok(userService.findByEmail(email).isPresent());
+    }
+    
     @GetMapping
     public UserResponse getPrincipal(@AuthenticationPrincipal User principal) {
-        return objectMapper.convertValue(principal, UserResponse.class);
+        if (principal == null) {
+            return null;
+        }
+        return UserResponse.builder()
+                .id(principal.getId())
+                .username(principal.getName())
+                .email(principal.getEmail())
+                .avatar(principal.getAvatar())
+                .build();
     }
 
     @PostMapping(EDIT_USER_PATH)

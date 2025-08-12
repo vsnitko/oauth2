@@ -1,0 +1,7 @@
+@use "@/global/mixins" as *;
+
+.search-bar {
+    @include flex(0.5rem 0.5rem);
+    height: var(--height-of-top-bars);
+    gap: 0.5rem;
+}

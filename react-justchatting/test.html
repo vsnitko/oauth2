@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Popup</title>
+  <style>
+    .container {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      border: 1px solid black;
+    }
+
+    .first {
+      background: lightblue;
+      padding: 20px;
+    }
+
+    .second {
+      position: absolute;
+      bottom: 0.5rem; /* Отступ относительно низа первого элемента */
+      background: lightcoral;
+      padding: 20px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="first">Обычный элемент</div>
+  <div class="second">Абсолютный элемент</div>
+</div>
+
+<script>
+    const button = document.getElementById('button');
+    const popup = document.getElementById('popup');
+    const popupContainer = document.getElementById('popupContainer');
+
+    let isPopupVisible = false;
+    let hideTimeout = null;
+    let isHovering = false;
+
+    button.addEventListener('click', () => {
+        popup.classList.add('visible');
+        isPopupVisible = true;
+    });
+
+    popupContainer.addEventListener('mouseenter', () => {
+        isHovering = true;
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
+    });
+
+    popupContainer.addEventListener('mouseleave', () => {
+        isHovering = false;
+        if (isPopupVisible) {
+            hideTimeout = setTimeout(() => {
+                if (!isHovering) {
+                    popup.classList.remove('visible');
+                    isPopupVisible = false;
+                }
+            }, 500);
+        }
+    });
+
+    // Если пользователь быстро убрал и вернул курсор
+    popupContainer.addEventListener('mouseover', () => {
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
+    });
+</script>
+</body>
+</html>

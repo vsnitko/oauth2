@@ -1,0 +1,19 @@
+@use "@/global/mixins" as *;
+
+.chat-window {
+    @include flex-column(0 0 0.5rem 0);
+    overflow-y: hidden;
+    align-items: center;
+    flex-grow: 1;
+    background-color: var(--chat-background);
+    gap: 0.25rem;
+    justify-content: flex-end
+}
+
+.messages-window {
+    @include flex(var(--chat-window-padding));
+    @include transitionScrollbar(var(--background-color));
+    overflow-y: auto;
+    flex-direction: column-reverse;
+    width: 100%;
+}

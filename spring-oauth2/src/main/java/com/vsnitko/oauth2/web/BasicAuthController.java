@@ -8,13 +8,14 @@ import static com.vsnitko.oauth2.web.Constants.VERIFY_EMAIL_PATH;
 
 import com.vsnitko.oauth2.config.AppProperties;
 import com.vsnitko.oauth2.model.payload.SignInRequest;
-import com.vsnitko.oauth2.model.payload.SignInResponse;
+import com.vsnitko.oauth2.model.payload.AuthResponse;
 import com.vsnitko.oauth2.model.payload.SignUpRequest;
-import com.vsnitko.oauth2.service.BasicAuthService;
 import com.vsnitko.oauth2.service.MailService;
+import com.vsnitko.oauth2.service.impl.AuthService;
 import jakarta.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -39,18 +40,24 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class BasicAuthController {
 
     private final AppProperties appProperties;
-    private final BasicAuthService basicAuthService;
+    private final AuthService authService;
     private final MailService mailService;
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<SignInResponse> signIn(@Valid @RequestBody SignInRequest userDto) {
-        return ResponseEntity.ok(basicAuthService.basicSignIn(userDto));
-    }
-
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-        return ResponseEntity.ok(basicAuthService.basicSignUp(signUpRequest));
-    }
+//    @PostMapping("/sign-in")
+//    public ResponseEntity<AuthResponse> signIn(@Valid @RequestBody SignInRequest signInRequest) {
+//        final AuthResponse authResponse = authService.basicSignIn(signInRequest);
+//        final HttpHeaders headers = authService.addRefreshTokenCookie(authResponse.getRefreshToken());
+//
+//        return ResponseEntity.ok().headers(headers).body(authResponse);
+//    }
+//
+//    @PostMapping("/sign-up")
+//    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+//        final AuthResponse authResponse = authService.basicSignUp(signUpRequest);
+//        final HttpHeaders headers = authService.addRefreshTokenCookie(authResponse.getRefreshToken());
+//
+//        return ResponseEntity.ok().headers(headers).body(authResponse);
+//    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadCredentialsException.class)

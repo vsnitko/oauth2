@@ -11,6 +11,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      - DOCKER_USERNAME=vitalisnitko
+      - DOCKER_PASSWORD=Kriper2004_Gnida
 
 volumes:
   jenkins_home:

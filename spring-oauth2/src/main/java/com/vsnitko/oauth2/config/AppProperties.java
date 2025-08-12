@@ -14,4 +14,6 @@ public class AppProperties {
     private String clientPath;
     private String serverPath;
     private String clientOauth2RedirectEndpoint;
+    private String filePath;
+    private String secret;
 }

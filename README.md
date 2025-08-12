@@ -67,7 +67,6 @@ Or delete `environment:` section in `docker-compose.yml`
 
 ### Known issues / Points to improve / TODO
 * Do global update for chatting
-* Consider building frontend in webpack
 * Add Jenkins deployment guide to README
-* Refresh jwt token is not supported
+* Refresh jwt accessToken is not supported
 * Api for default avatar outdated

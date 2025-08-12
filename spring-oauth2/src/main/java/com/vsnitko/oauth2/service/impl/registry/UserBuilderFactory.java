@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  *      <li>
  *        When we need to choose required implementation, we pass OAuth2AuthenticationToken as parameter in
  *        {@link #buildUser(OAuth2AuthorizedClient, OAuth2AuthenticationToken)} method.
- *        This token contains providerName (or clientRegistrationId),
+ *        This accessToken contains providerName (or clientRegistrationId),
  *        which we can use to get required implementation from HashMap
  *      </li>
  * </ul>

@@ -1,0 +1,14 @@
+@use "@/global/mixins" as *;
+
+.send-message-input-box {
+    @include flex;
+    flex-shrink: 0;
+    height: 3.5rem;
+    border-radius: 1rem;
+    background-color: var(--background-color);
+}
+
+.send-message-padding {
+    width: var(--chat-content-width-responsive);
+    padding: var(--chat-window-padding);
+}

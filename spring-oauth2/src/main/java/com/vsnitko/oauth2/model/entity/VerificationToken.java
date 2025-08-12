@@ -19,7 +19,6 @@ import lombok.Setter;
  * @since 2024.10.04
  */
 @Entity
-
 @Getter
 @Setter
 @Builder

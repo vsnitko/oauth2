@@ -1,0 +1,43 @@
+appHost: justchatting.online
+
+frontend:
+  serviceName: react-service
+  label: react-app
+  imageTag: latest
+
+backend:
+  serviceName: spring-boot-service
+  label: spring-boot-app
+  replicaCount: 1
+  secrets:
+    - name: DB_USERNAME
+    - name: DB_PASSWORD
+    - name: GOOGLE_CLIENT_ID
+    - name: GOOGLE_CLIENT_SECRET
+    - name: GITHUB_CLIENT_ID
+    - name: GITHUB_CLIENT_SECRET
+    - name: EMAIL_USERNAME
+    - name: EMAIL_PASSWORD
+  imageTag: latest
+
+db:
+  serviceName: mysql-service
+  label: mysql
+  claimName: mysql-pvc
+  initialDb: oauth2_db
+  volumeName: mysql-persistent-storage
+  
+jenkins:
+  serviceName: jenkins-service
+  label: jenkins
+  claimName: jenkins-pvc
+  volumeName: jenkins-persistent-storage
+  volumeNameSock: docker-sock
+  volumeNameKubeConfig: kubeconfig-volume
+  secrets:
+    - name: DOCKER_USERNAME
+    - name: DOCKER_PASSWORD
+
+configName: spring-config
+
+
