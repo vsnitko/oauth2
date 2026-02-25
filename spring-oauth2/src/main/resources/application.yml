@@ -2,7 +2,7 @@ server:
   servlet:
     context-path: /api
 app:
-  client-path: http://${REMOTE_HOST:localhost:5173}
+  client-path: http://${REMOTE_HOST:localhost}${CLIENT_PORT::5173}
   server-path: http://${REMOTE_HOST:localhost:8080}/api
   client-oauth2-redirect-endpoint: /oauth2/redirect
   secret: ${GOOGLE_CLIENT_SECRET:X}
@@ -26,7 +26,7 @@ spring:
   datasource:
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:root}
-    url: jdbc:mysql://${DB_SERVICE_NAME:localhost}:3306/${INITIAL_DB:oauth2_db}
+    url: jdbc:mysql://${DB_SERVICE_NAME:localhost}:${DB_SERVICE_PORT:3306}/${INITIAL_DB:oauth2_db}
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
@@ -63,7 +63,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 s3:
-  endpoint: http://localhost:9444/s3
+  endpoint: http://${S3_SERVICE_NAME:localhost}:${S3_SERVICE_PORT:9444}
   bucket: justchatting-bucket
   access-key: AKIAIOSFODNN7EXAMPLE
   secret-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
