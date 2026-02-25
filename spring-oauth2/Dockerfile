@@ -1,9 +1,16 @@
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+FROM gradle:jdk21 AS builder
 WORKDIR /app
-COPY . .
-RUN mvn clean package -Dcheckstyle.skip=true -B
+COPY build.gradle.kts settings.gradle.kts gradlew ./
+COPY gradle/ gradle/
+
+RUN gradle dependencies --no-daemon
+
+COPY src/ src/
+COPY lombok.config lombok.config
+
+RUN gradle bootJar --no-daemon
 
 FROM openjdk:21
-COPY --from=builder /app/target/oauth2-demo.jar oauth2-demo.jar
-ENTRYPOINT ["java","-jar","oauth2-demo.jar"]
+COPY --from=builder /app/build/libs/oauth2-demo.jar oauth2-demo.jar
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8090","-jar","oauth2-demo.jar"]
 EXPOSE 8080

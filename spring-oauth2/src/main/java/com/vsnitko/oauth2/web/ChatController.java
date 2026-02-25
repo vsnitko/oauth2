@@ -1,6 +1,7 @@
 package com.vsnitko.oauth2.web;
 
 import com.vsnitko.oauth2.config.AppProperties;
+import com.vsnitko.oauth2.config.S3Properties;
 import com.vsnitko.oauth2.model.payload.ChatInfoResponse;
 import com.vsnitko.oauth2.model.payload.MessageResponse;
 import com.vsnitko.oauth2.service.ChatService;
@@ -29,15 +30,17 @@ public class ChatController {
 
     private final ChatService chatService;
     private final AppProperties appProperties;
+    private final S3Properties s3Properties;
 
     @GetMapping("/health")
     public String getChatInfo() {
-        return String.format("%s %s %s %s %s",
+        return String.format("%s %s %s %s %s %s",
                 appProperties.getServerPath(),
                 appProperties.getClientPath(),
                 appProperties.getSecret(),
                 appProperties.getClientOauth2RedirectEndpoint(),
-                appProperties.getFilePath()
+                appProperties.getFilePath(),
+                s3Properties.getEndpoint()
         );
     }
 
@@ -53,7 +56,8 @@ public class ChatController {
 
     @GetMapping("/chats")
     public List<ChatInfoResponse> getChats() {
-        return chatService.getChatList();
+        final List<ChatInfoResponse> chatList = chatService.getChatList();
+        return chatList;
     }
 
 

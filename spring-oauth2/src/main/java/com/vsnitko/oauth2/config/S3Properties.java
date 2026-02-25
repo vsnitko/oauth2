@@ -32,6 +32,7 @@ public class S3Properties {
                 .endpointOverride(create(endpoint))
                 .credentialsProvider(StaticCredentialsProvider.create(credentials))
                 .region(Region.EU_CENTRAL_1)
+                .forcePathStyle(true)
                 .build();
     }
 }

@@ -30,11 +30,16 @@ services:
     build: ./spring-oauth2
     ports:
       - "8080:8080"
+      - "8090:8090"
     depends_on:
       mysql:
         condition: service_healthy
     environment:
       - DB_SERVICE_NAME=mysql
+      - DB_SERVICE_PORT=3306
+      - S3_SERVICE_NAME=host.docker.internal
+      - S3_SERVICE_PORT=9444
+      - CLIENT_PORT=
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}

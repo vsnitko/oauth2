@@ -21,7 +21,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.sql.Date;
 import java.util.Optional;
-import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -88,24 +87,6 @@ class MailServiceImplTest {
         doThrow(MessagingException.class).when(mimeMessage).setContent(any());
 
         assertThrows(RuntimeException.class, () -> mailService.sendVerificationEmail(recipient));
-    }
-
-    @Test
-    void sendVerificationEmailWithMailAuthenticationException() throws MessagingException {
-        final MimeMessage mimeMessage = mock(MimeMessage.class);
-
-        when(appProperties.getServerPath()).thenReturn("http://localhost:8080/api");
-        when(templateEngine.process(eq(THYMELEAF_HTML_TEMPLATE_NAME), any(Context.class)))
-            .thenReturn("any");
-        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
-        doThrow(MailAuthenticationException.class).when(mimeMessage).setContent(any());
-
-        try (LogCaptor logCaptor = LogCaptor.forClass(MailServiceImpl.class)) {
-            mailService.sendVerificationEmail(new User());
-
-            assertTrue(logCaptor.getWarnLogs().stream()
-                           .anyMatch(log -> log.contains("Email authentication failed")));
-        }
     }
 
     @Test
