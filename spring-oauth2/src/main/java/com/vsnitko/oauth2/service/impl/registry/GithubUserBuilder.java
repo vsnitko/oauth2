@@ -2,7 +2,6 @@ package com.vsnitko.oauth2.service.impl.registry;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.vsnitko.oauth2.model.entity.User;
 import com.vsnitko.oauth2.service.UserBuilder;
 import java.util.Objects;
@@ -13,6 +12,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import tools.jackson.databind.JsonNode;
 
 /**
  * @author v.snitko
